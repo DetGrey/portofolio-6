@@ -7,19 +7,12 @@ let userUID = null;
 app.use(express.static(__dirname + '/public'));
 app.use(express.json());
 
-app.get('/', async (req, res) => {
-    console.log('hi')
+app.get('/home', async (req, res) => {
     const loginResponse = await monitorAuthState()
-    console.log(loginResponse)
+    console.log('login:' + loginResponse)
     res.json(loginResponse);
 })
 
-app.get('/home', (req, res) => {
-    console.log('get request');
-    //const loginResponse = await monitorAuthState();
-    //console.log(loginResponse);
-    //res.json(loginResponse);
-})
 app.listen(PORT, function () {
     console.log(`Demo project at: ${PORT}!`);
 });
@@ -72,20 +65,6 @@ const logOut = async () => {
     });
 };
 
-async function fetchHome() {
-    await fetch(`${host}/index.html`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'text/html'
-        }
-    })
-        .then((res) => {
-            console.log(res);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-}
 
 async function monitorAuthState() {
    return onAuthStateChanged(firebaseAuth, (user) => {

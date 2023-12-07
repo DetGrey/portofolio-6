@@ -1,3 +1,4 @@
+const host = `http://localhost:5050`;
 console.log('Client-side code running');
 // -------------------------------------------- HEAT MAP ( LEAFLET JS )
 // SET VIEW AND ZOOM ON MAP
@@ -94,6 +95,10 @@ async function loadPage () {
     console.log('hello')
     await fetch('/home', {
         method: 'GET',
+        headers: {
+            'Content-Type':'application/json',
+            'Accept':'application/json'
+        },
     })
         .then((response) => {
             return response.json();
