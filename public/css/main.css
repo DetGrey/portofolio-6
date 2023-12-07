@@ -152,6 +152,51 @@ hr {
     background: #620b30;
 }
 
+ /*MODAL STYLING*/
+.upload-picture-modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    user-select: none;
+}
+
+.upload-picture-modal-content {
+    /*outline: black solid 1px;*/
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    border-radius: 10px;
+    font-size: 1.3rem;
+}
+
+.close {
+    color: #aaaaaa;
+    /*float: right;*/
+    font-size: 30px;
+    font-weight: bold;
+    align-self: flex-end;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 /* ----------------------------------------- RESPONSIVE DESIGN */
 @media screen and (min-width: 800px) {
     h1 {

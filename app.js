@@ -65,6 +65,66 @@ const logOut = async () => {
     });
 };
 
+// MODAL SCRIPTS //
+// Modal for uploading pictures
+const uploadPictureModal = document.querySelector('#upload-picture-modal');
+const close = document.querySelector('.close');
+const uploadPictureBtn = document.querySelector('#upload-picture-button');
+// Opens modal when clicking on the button
+uploadPictureBtn.addEventListener('click', () => {
+    uploadPictureModal.classList.toggle('hidden');
+    console.log('clicked')
+});
+// Closes modal when clicking on the X
+close.addEventListener('click', () => {
+    uploadPictureModal.classList.toggle('hidden');
+    console.log('clicked')
+});
+// Closes modal when clicking outside of it
+// window.addEventListener('click', (event) => {
+//     if (event.target == uploadPictureModal) {
+//         uploadPictureModal.classList.toggle('hidden');
+//         console.log('closed')
+//     }
+// });
+
+
+
+//
+// app.post('/upload', async (req, res) => {
+//     console.log('post request');
+//     const file = req.body.file;
+//     const storageRef = ref(storage, 'pictures/' + file.name);
+//     console.log(storageRef);
+//     res.json(true);
+// });
+
+// Code for uploading pictures
+// const pictureFile = document.querySelector('#picture-file');
+// pictureFile.addEventListener('change', (event) => {
+//     const fileItem = document.querySelector('#picture-file').files[0];
+//     const fileName = fileItem.name;
+//
+//     const storageRef = ref(storage, 'pictures/' + fileName);
+//     const uploadTask = uploadBytesResumable(storageRef, fileItem);
+//
+//     uploadTask.on('state_changed',
+//         (snapshot) => {
+//             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+//             console.log('Upload is ' + progress + '% done');
+//         },
+//         (error) => {
+//             console.log(error);
+//         },
+//         () => {
+//             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+//                 console.log('File available at', downloadURL);
+//             }).catch((error) => {
+//                 console.error('Error getting download URL:', error);
+//             });
+//         }
+//     );
+// });
 
 async function monitorAuthState() {
     let signedIn = false;
@@ -81,12 +141,3 @@ async function monitorAuthState() {
     });
     return signedIn;
 }
-
-//
-// app.post('/upload', async (req, res) => {
-//     console.log('post request');
-//     const file = req.body.file;
-//     const storageRef = ref(storage, 'pictures/' + file.name);
-//     console.log(storageRef);
-//     res.json(true);
-// });

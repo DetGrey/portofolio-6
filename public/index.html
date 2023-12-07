@@ -44,16 +44,47 @@
     </section>
 </main>
 
+
 <div id="upload-picture-modal" class="modal">
 
-    <div class="upload-picture-modal-content">
+    <div class="upload-picture-modal-content ">
         <span class="close">&times;</span>
-        <h2 class="rules-rules">Upload a picture</h2>
-        <p> WIP find out how to upload a picture
-        </p>
+        <h2>Upload a picture</h2>
+        <form class="upload-picture-modal-content-from">
 
+            <label for="picture-file">Upload file</label>
+            <input
+                    type="file"
+                    name="name"
+                    id="picture-file"
+                    accept="image/png, image/jpeg"
+                    required/>
+
+            <label for="picture-name">Picture name</label>
+            <input type="text" name="name" id="picture-name" placeholder="Picture name" required/>
+
+            <label for="album-name">Album name</label>
+            <input type="text" name="name" id="album-name" placeholder="Album name" required/>
+
+            <label for="city">City location</label>
+            <input type="text" name="name" id="city" placeholder="City name" required>
+
+            <label for="country">Country location</label>
+            <input type="text" name="name" id="country" placeholder="Country name" required>
+
+            <label for="alternative-text">Alternative text</label>
+            <input type="text" name="name" id="alternative-text" placeholder="Picture description" required/>
+
+            <label for="picture-url">Picture url</label>
+            <input type="password" name="name" id="picture-url" placeholder="..." required/>
+
+            <label for="picture-tags">Tags</label>
+            <input type="text" name="name" id="picture-tags" placeholder="Picture tags" required/>
+
+
+            <button id="upload-button" type="button">Upload picture</button>
+        </form>
     </div>
-
 </div>
 
 <footer>
