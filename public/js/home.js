@@ -70,6 +70,9 @@ function getColor(value) {
                         '#c4c4c4';
 }
 
+// -------------------------------------------- RETRIEVE PICTURES FROM FIREBASE
+
+
 const logout = async () => {
     console.log('logout was clicked');
 

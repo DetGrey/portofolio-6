@@ -15,7 +15,6 @@ const adminApp = initializeAdminApp({
     credential: firebase.credential.cert(serviceAccount)
 });
 const adminAuth = getAdminAuth(adminApp);
-const db = getFirestore();
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -29,6 +28,33 @@ const firebaseConfig = {
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
 const firebaseAuth = getAuth(firebaseApp);
 
-module.exports = { firebaseAuth, adminAuth, db }; //export the app
+
+const recentPictures = document.querySelector('#recent-pictures');
+const picturesRef = db.collection('pictures');
+const albumsRef = db.collection('albums');
+const usersRef = db.collection('users');
+
+const renderPictures = async (req, res) => {
+    try{
+        picturesRef.get().then((querySnapshot) => {
+            querySnapshot.forEach(doc => {
+                console.log(doc.data());
+                const img = document.createElement('img');
+                img.src = doc.data().img_path;
+                recentPictures.appendChild(img);
+            });
+        })
+    } catch (error) {
+        return res
+            .status(500)
+            .json({ general: "Something went wrong, please try again"});
+    }
+};
+
+
+
+
+module.exports = { firebaseAuth, adminAuth, db, renderPictures }; //export the app

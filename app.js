@@ -4,12 +4,19 @@ const PORT = 5050;
 const host = `http://localhost:${PORT}`;
 let userUID = null;
 
+const { signInWithEmailAndPassword,onAuthStateChanged } = require("firebase/auth");
+const { firebaseAuth, renderPictures} = require('./firebase');
+
+
 app.use(express.static(__dirname + '/public'));
 app.use(express.json());
 
 app.get('/home', async (req, res) => {
     const loginResponse = await monitorAuthState()
     console.log('login:' + loginResponse)
+    if (loginResponse === true) {
+        renderPictures()
+    };
     res.json(loginResponse);
 })
 
@@ -33,8 +40,6 @@ app.get('/logout',async (req, res) => {
 // const { books } = require('./public/js/books');
 // app.get('/books', books);
 
-const { signInWithEmailAndPassword,onAuthStateChanged } = require("firebase/auth");
-const { firebaseAuth } = require('./firebase');
 
 async function authenticateLogin(emailValue, passwordValue) {
     return signInWithEmailAndPassword(firebaseAuth, emailValue, passwordValue)
@@ -85,22 +90,13 @@ async function monitorAuthState() {
 
 
 
-// const { db } = require("../../firebase");
+
+
 //
-// const books = async (req, res) => {
-//     const booksRef = db.collection('pictures');
-//     try{
-//         booksRef.get().then((snapshot) => {
-//             const data = snapshot.docs.map((doc) => ({
-//                 id: doc.id,
-//                 ...doc.data(),
-//             }));
-//             console.log(data);
-//             return res.status(201).json(data);
-//         })
-//     } catch (error) {
-//         return res
-//             .status(500)
-//             .json({ general: "Something went wrong, please try again"});
-//     }
-// };
+// app.post('/upload', async (req, res) => {
+//     console.log('post request');
+//     const file = req.body.file;
+//     const storageRef = ref(storage, 'pictures/' + file.name);
+//     console.log(storageRef);
+//     res.json(true);
+// });
