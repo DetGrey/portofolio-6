@@ -23,7 +23,7 @@ const login = async () => {
         .then(function(data) {
             console.log(data);
             if (data === true) {
-                location.replace("index.html");
+                location.href = `${host}/index.html`;
             }
         })
         .catch(function(error) {

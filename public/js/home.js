@@ -68,3 +68,24 @@ function getColor(value) {
                     value > 0   ? '#f8b84c' :
                         '#c4c4c4';
 }
+
+const logout = async () => {
+    console.log('logout was clicked');
+
+    await fetch('/logout', {
+        method: 'GET',
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+            if (data === true) {
+                location.href = `${host}/login.html`;
+            }
+        });
+
+}
+
+const logoutBtn = document.querySelector('#logout');
+logoutBtn.addEventListener('click', logout);

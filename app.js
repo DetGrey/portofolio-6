@@ -23,6 +23,12 @@ app.post('/login',async (req, res) => {
     console.log(loginResponse);
     res.json(loginResponse);
 })
+app.get('/logout',async (req, res) => {
+    console.log('get request');
+    const loginResponse = await logOut();
+    console.log(loginResponse);
+    res.json(loginResponse);
+})
 
 // const { books } = require('./public/js/books');
 // app.get('/books', books);
@@ -49,10 +55,13 @@ async function authenticateLogin(emailValue, passwordValue) {
 }
 
 const logOut = async () => {
-    await firebaseAuth.signOut().then(() => {
+    return firebaseAuth.signOut().then(() => {
+        console.log('logged out');
+        return true;
 
     }).catch((error) => {
         console.log(error);
+        return false;
     });
 };
 
