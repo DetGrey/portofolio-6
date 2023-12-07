@@ -1,4 +1,4 @@
-const host = `http://localhost:5050`;
+console.log('Client side code running');
 
 const loginEmail = document.querySelector("#login-email");
 const loginPassword = document.querySelector("#login-password");
@@ -6,7 +6,7 @@ const loginBtn = document.querySelector("#login-button");
 const login = async () => {
     console.log('login was clicked');
 
-    await fetch(host + '/login', {
+    await fetch('/login', {
         method: 'POST',
         headers: {
             'Content-Type':'application/json',
@@ -23,7 +23,7 @@ const login = async () => {
         .then(function(data) {
             console.log(data);
             if (data === true) {
-                location.href = `${host}/index.html`;
+                location.href = `/index.html`;
             }
         })
         .catch(function(error) {

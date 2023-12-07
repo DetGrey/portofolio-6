@@ -4,7 +4,7 @@ const { getAuth } = require("firebase/auth");
 // firebase-firebase package
 const { initializeApp: initializeAdminApp } = require('firebase-admin/app');
 const { getAuth: getAdminAuth } = require('firebase-admin/auth');
-const { getFirestore } = require('firebase-admin/firestore');
+const { getFirestore, collection, query , where, getDocs } = require('firebase/firestore');
 
 const firebase = require("firebase-admin");
 
@@ -32,29 +32,17 @@ const db = getFirestore(firebaseApp);
 const firebaseAuth = getAuth(firebaseApp);
 
 
-const recentPictures = document.querySelector('#recent-pictures');
-const picturesRef = db.collection('pictures');
-const albumsRef = db.collection('albums');
-const usersRef = db.collection('users');
+const picturesRef = collection(db, 'pictures');
+const albumsRef = collection(db, 'albums');
+const usersRef = collection(db, 'users');
 
-const renderPictures = async (req, res) => {
-    try{
-        picturesRef.get().then((querySnapshot) => {
-            querySnapshot.forEach(doc => {
-                console.log(doc.data());
-                const img = document.createElement('img');
-                img.src = doc.data().img_path;
-                recentPictures.appendChild(img);
-            });
-        })
-    } catch (error) {
-        return res
-            .status(500)
-            .json({ general: "Something went wrong, please try again"});
-    }
-};
+async function retrievePictures (userUID)  {
+    const q = query(picturesRef, where('user_id', '==', userUID));
+    const querySnapshot = await getDocs(q);
+
+    console.log(querySnapshot);
+    // return querySnapshot;
+}
 
 
-
-
-module.exports = { firebaseAuth, adminAuth, db, renderPictures }; //export the app
+module.exports = { firebaseAuth, adminAuth, db, retrievePictures }; //export the app

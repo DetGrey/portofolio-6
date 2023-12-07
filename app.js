@@ -1,23 +1,23 @@
 const express = require('express');
 const app = express();
 const PORT = 5050;
-const host = `http://localhost:${PORT}`;
 let userUID = null;
 
 const { signInWithEmailAndPassword,onAuthStateChanged } = require("firebase/auth");
-const { firebaseAuth, renderPictures} = require('./firebase');
+const { firebaseAuth, retrievePictures } = require('./firebase');
 
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.json());
 
 app.get('/home', async (req, res) => {
-    const loginResponse = await monitorAuthState()
-    console.log('login:' + loginResponse)
-    if (loginResponse === true) {
-        renderPictures()
-    };
-    res.json(loginResponse);
+    const loginResponse = await monitorAuthState();
+    console.log('login ' + loginResponse)
+    return res.json(loginResponse);
+})
+app.get('/pictures', async (req, res) => {
+    const querySnapshot = await retrievePictures(userUID);
+    return res.json(querySnapshot);
 })
 
 app.listen(PORT, function () {
@@ -27,18 +27,14 @@ app.listen(PORT, function () {
 app.post('/login',async (req, res) => {
     console.log('post request');
     const loginResponse = await authenticateLogin(req.body.email, req.body.password)
-    console.log(loginResponse);
+    console.log('login ' + loginResponse);
     res.json(loginResponse);
 })
 app.get('/logout',async (req, res) => {
-    console.log('get request');
     const loginResponse = await logOut();
-    console.log(loginResponse);
+    console.log('logout ' + loginResponse);
     res.json(loginResponse);
 })
-
-// const { books } = require('./public/js/books');
-// app.get('/books', books);
 
 
 async function authenticateLogin(emailValue, passwordValue) {
@@ -47,21 +43,20 @@ async function authenticateLogin(emailValue, passwordValue) {
             // Signed in
             const user = userCredential.user;
             userUID = user.uid;
-            console.log(userUID);
-
             return true;
 
         })
         .catch((error) => {
             const errorMessage = error.message;
             console.log(errorMessage);
+            userUID = null;
             return false;
         });
 }
 
 const logOut = async () => {
     return firebaseAuth.signOut().then(() => {
-        console.log('logged out');
+        userUID = null;
         return true;
 
     }).catch((error) => {
@@ -72,25 +67,20 @@ const logOut = async () => {
 
 
 async function monitorAuthState() {
-   return onAuthStateChanged(firebaseAuth, (user) => {
+    let signedIn = false;
+    await onAuthStateChanged(firebaseAuth, (user) => {
         if (user) {
             // User is signed in, see docs for a list of available properties
             // https://firebase.google.com/docs/reference/js/auth.user
             userUID = user.uid;
-            console.log(userUID);
-            return true
+            signedIn = true;
         } else {
             // User is signed out
-            console.log('user is signed out')
-            return false
+            userUID = null;
         }
     });
+    return signedIn;
 }
-
-
-
-
-
 
 //
 // app.post('/upload', async (req, res) => {

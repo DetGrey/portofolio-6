@@ -1,4 +1,3 @@
-const host = `http://localhost:5050`;
 console.log('Client-side code running');
 // -------------------------------------------- HEAT MAP ( LEAFLET JS )
 // SET VIEW AND ZOOM ON MAP
@@ -85,7 +84,7 @@ const logout = async () => {
         .then((data) => {
             console.log(data);
             if (data === true) {
-                location.href = `${host}/login.html`;
+                location.href = `/login.html`;
             }
         });
 
@@ -95,7 +94,6 @@ const logoutBtn = document.querySelector('#logout');
 logoutBtn.addEventListener('click', logout);
 
 async function loadPage () {
-    console.log('hello')
     await fetch('/home', {
         method: 'GET',
         headers: {
@@ -108,13 +106,36 @@ async function loadPage () {
         })
         .then((data) => {
             console.log(data);
-            if (data === true) {
-                location.href = `${host}/index.html`;
-            } else {
-                location.href = `${host}/login.html`
+            if (data !== true) {
+                location.href = `/login.html`;
+            }
+            else {
+                renderPictures();
             }
         });
 }
-loadPage()
+loadPage();
 
+const recentPictures = document.querySelector('#recent-pictures');
+async function renderPictures () {
+    await fetch('/pictures', {
+        method: 'GET',
+        headers: {
+            'Content-Type':'application/json',
+            'Accept':'application/json'
+        },
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .then((querySnapshot) => {
+            console.log(querySnapshot);
+            querySnapshot.forEach(doc => {
+                console.log(doc.data());
+                const img = document.createElement('img');
+                img.src = doc.data().img_path;
+                recentPictures.appendChild(img);
+            });
+        });
+}
 
