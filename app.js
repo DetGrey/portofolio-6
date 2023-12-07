@@ -29,6 +29,7 @@ app.post('/login',async (req, res) => {
 
 const { signInWithEmailAndPassword } = require("firebase/auth");
 const { firebaseAuth } = require('./firebase');
+
 async function authenticateLogin(emailValue, passwordValue) {
     return signInWithEmailAndPassword(firebaseAuth, emailValue, passwordValue)
         .then((userCredential) => {
