@@ -1,0 +1,29 @@
+/* ----------------------------------------- LOGIN OR SIGN UP */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+input {
+    width: 80%;
+    height: 7vw;
+    padding: 1vw;
+    margin: 2vw 1vw;
+    border-radius: 5px;
+    border: solid 1px #cbc9c9;
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, .09);
+    background: #fff;
+}
+button {
+    padding: 3vw;
+    margin: 2vw;
+    border-radius: 10px;
+    border: none;
+    background: black;
+    color: white;
+    font-size: 16px;
+    width: fit-content;
+    height: fit-content;
+    cursor: pointer;
+}

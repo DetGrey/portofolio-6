@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - World of Pictures</title>
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+<header>
+    <h1 id="login-header">login</h1>
+</header>
+<section id="login-section">
+    <form>
+        <label for="login-email"></label>
+        <input type="text" name="loginEmail" id="login-email" placeholder="Email" required/>
+
+        <label for="login-password"></label>
+        <input type="password" name="loginPassword" id="login-password" placeholder="Password" required/>
+
+        <button id="login-button" type="button">Login</button>
+        <button id="create-account" type="button">Or create an account</button>
+    </form>
+</section>
+<section id="signup-section" class="hidden">
+    <form>
+        <label for="first-name"></label>
+        <input type="text" name="name" id="first-name" placeholder="First name" required/>
+
+        <label for="last-name"></label>
+        <input type="text" name="name" id="last-name" placeholder="Last name" required/>
+
+        <label for="signup-email"></label>
+        <input type="text" name="name" id="signup-email" placeholder="Email" required/>
+
+        <label for="signup-password"></label>
+        <input type="password" name="name" id="signup-password" placeholder="Password" required/>
+        <label for="signup-password-check"></label>
+        <input type="password" name="name" id="signup-password-check" placeholder="Repeat password" required/>
+
+        <button id="signup-button" type="button">Sign up</button>
+        <button id="already-have-account" type="button">Already have an account?</button>
+    </form>
+</section>
+
+<script src="./dist/login.js"></script>
+</body>
+
+</html>
