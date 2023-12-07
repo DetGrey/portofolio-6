@@ -89,3 +89,24 @@ const logout = async () => {
 
 const logoutBtn = document.querySelector('#logout');
 logoutBtn.addEventListener('click', logout);
+
+async function loadPage () {
+    console.log('hello')
+    await fetch('/home', {
+        method: 'GET',
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+            if (data === true) {
+                location.href = `${host}/index.html`;
+            } else {
+                location.href = `${host}/login.html`
+            }
+        });
+}
+loadPage()
+
+
