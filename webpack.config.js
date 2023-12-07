@@ -1,14 +1,10 @@
 const path = require('path');
 
 module.exports = {
-    entry: {
-        main: ['./app.js'],
-        home: ['./handlers/home.js'],
-        login: ['./handlers/login.js']
-    },
+    entry: ['./app.js'],
     output: {
-        filename: '[name].js',
-        path: path.resolve(__dirname, 'public/dist'),
+        filename: 'main.js',
+        path: path.resolve(__dirname, '/dist'),
     },
     target: 'node',
 };

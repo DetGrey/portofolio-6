@@ -1,1 +1,0 @@
-(()=>{console.log("Client-side code running");let t=L.map("map").setView([0,0],1);L.tileLayer("https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.{ext}?api_key=c2365df7-7556-4972-8ad8-1c7f5d19ab1b",{noWrap:!0,ext:"png",attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(t)})();
