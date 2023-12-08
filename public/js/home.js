@@ -128,7 +128,6 @@ async function renderPictures () {
             img.src = picture.img_path;
             recentPictures.appendChild(img);
         });
-        return;
     }
     else {
         await fetch('/pictures', {
@@ -182,26 +181,26 @@ let fileItem;
 let fileName;
 const pictureFile = document.querySelector('#picture-file');
 pictureFile.addEventListener('change', (event) => {
-    fileItem = pictureFile.files[0];
+    const file = new FormData()
+    file.append('file', pictureFile.files[0])
+    fileItem = file;
     fileName = fileItem.name;
 });
 
-async function uploadPicture () {
-    await fetch('/upload', {
-        method: 'POST',
-        headers: {
-            'Content-Type':'application/json',
-            'Accept':'application/json'
-        },
-        body: JSON.stringify({
-            fileItem: fileItem,
-            fileName: fileName
-        })
-    })
-        .then((response) => {
-            return response.json();
-        })
-        .then((data) => {
-            console.log(data);
-        });
-}
+const uploadBtn = document.querySelector('#upload-button');
+
+//  ------------------------------- BELOW CODE DOES NOT WORK
+// uploadBtn.addEventListener('click', uploadPicture);
+// async function uploadPicture () {
+//     console.log(fileItem)
+//     await fetch('/upload', {
+//         method: 'POST',
+//         body: fileItem
+//     })
+//         .then((response) => {
+//             return response.json();
+//         })
+//         .then((data) => {
+//             console.log(data);
+//         });
+// }

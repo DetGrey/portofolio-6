@@ -50,6 +50,28 @@ async function retrievePictures(userUID) {
     return pictures;
 }
 
+async function retrieveCountryData(data) {
+    const countryData = [];
+
+    data.forEach(doc => {
+        if (countryData.some(x => x.name === doc.country)) {
+            countryData.forEach(object => {
+                if (object.name === doc.country) {
+                    object.count++;
+                }
+            });
+        }
+        else {
+            countryData.push({
+                "name": doc.country,
+                "count": 1
+            })
+        }
+    });
+    return countryData;
+
+}
+
 async function createUserInDB (uid, firstName, lastName, signupEmail) {
     await setDoc(doc(usersRef), {
         first_name: firstName,
@@ -88,4 +110,4 @@ async function uploadPictureToDB(fileItem, fileName) {
     );
 }
 
-module.exports = { firebaseAuth, adminAuth, db, retrievePictures,createUserInDB, uploadPictureToDB }; //export the app
+module.exports = { firebaseAuth, adminAuth, db, retrieveCountryData, retrievePictures,createUserInDB, uploadPictureToDB }; //export the app

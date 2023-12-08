@@ -4,7 +4,7 @@ const PORT = 5050;
 let userUID = null;
 
 const { signInWithEmailAndPassword,onAuthStateChanged,createUserWithEmailAndPassword } = require("firebase/auth");
-const { firebaseAuth, retrievePictures,createUserInDB,pictures, uploadPictureToDB } = require('./firebase');
+const { firebaseAuth, retrievePictures,createUserInDB,pictures, uploadPictureToDB, retrieveCountryData} = require('./firebase');
 
 
 app.use(express.static(__dirname + '/public'));
@@ -17,8 +17,10 @@ app.get('/home', async (req, res) => {
 })
 app.get('/pictures', async (req, res) => {
     try {
-        const queryResult = await retrievePictures(userUID);
         console.log('Querying and returning new pictures');
+        const queryResult = await retrievePictures(userUID);
+
+        const countryData = await retrieveCountryData(queryResult);
 
         return res.json(queryResult);
     } catch (error) {
@@ -46,14 +48,17 @@ app.post('/register', async (req, res) =>{
 })
 app.get('/logout',async (req, res) => {
     const loginResponse = await logOut();
+    sessionStorage.removeItem("sessionPictures");
     console.log('logout ' + loginResponse);
     res.json(loginResponse);
 })
 
 app.post('/upload', async (req, res) => {
     console.log('upload request');
-    const uploadResponse = await uploadPictureToDB(req.body.fileItem, req.body.fileName);
-    console.log(uploadResponse);
+    const file = req.body;
+    console.log(file);
+    // const uploadResponse = await uploadPictureToDB(req.body.fileItem, req.body.fileItem.name);
+    // console.log(uploadResponse);
     // res.json(uploadResponse);
 });
 async function authenticateLogin(emailValue, passwordValue) {
@@ -68,6 +73,7 @@ async function authenticateLogin(emailValue, passwordValue) {
         .catch((error) => {
             const errorMessage = error.message;
             console.log(errorMessage);
+            sessionStorage.removeItem("sessionPictures");
             userUID = null;
             return false;
         });
