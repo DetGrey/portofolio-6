@@ -39,9 +39,7 @@ const usersRef = collection(db, 'users');
 let pictures = []; // Global variable to store pictures
 
 async function retrievePictures(userUID) {
-    if (pictures.length > 0) {
-        return pictures;
-    }
+
     const q = query(picturesRef, where('user_id', '==', userUID));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach(doc => {

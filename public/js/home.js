@@ -118,25 +118,40 @@ loadPage();
 
 const recentPictures = document.querySelector('#recent-pictures');
 async function renderPictures () {
-    await fetch('/pictures', {
-        method: 'GET',
-        headers: {
-            'Content-Type':'application/json',
-            'Accept':'application/json'
-        },
-    })
-        .then((response) => {
-            return response.json();
-        })
-        .then((pictures) => {
-            console.log(pictures);
-            pictures.forEach(picture => {
-                console.log(picture);
-                const img = document.createElement('img');
-                img.src = picture.img_path;
-                recentPictures.appendChild(img);
-            });
+    const sessionPictures = JSON.parse(sessionStorage.getItem("sessionPictures"))
+    console.log(sessionPictures)
+    if (sessionPictures) {
+        console.log('Returning cached pictures')
+        sessionPictures.forEach(picture => {
+            console.log(picture);
+            const img = document.createElement('img');
+            img.src = picture.img_path;
+            recentPictures.appendChild(img);
         });
+        return;
+    }
+    else {
+        await fetch('/pictures', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+        })
+            .then((response) => {
+                return response.json();
+            })
+            .then((pictures) => {
+                sessionStorage.setItem("sessionPictures", JSON.stringify(pictures))
+                console.log(pictures);
+                pictures.forEach(picture => {
+                    console.log(picture);
+                    const img = document.createElement('img');
+                    img.src = picture.img_path;
+                    recentPictures.appendChild(img);
+                });
+            });
+    }
 }
 
 // MODAL SCRIPTS //
