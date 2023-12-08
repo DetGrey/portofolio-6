@@ -1,15 +1,14 @@
 const { initializeApp } = require("firebase/app");
 const { getAuth } = require("firebase/auth");
+const { getFirestore, collection, query , where, getDocs,setDoc,doc } = require('firebase/firestore');
+const {getStorage, ref, getDownloadURL, uploadBytesResumable} = require("firebase/storage");
+
 
 // firebase-firebase package
 const { initializeApp: initializeAdminApp } = require('firebase-admin/app');
 const { getAuth: getAdminAuth } = require('firebase-admin/auth');
-const { getFirestore, collection, query , where, getDocs,setDoc,doc } = require('firebase/firestore');
-
 const firebase = require("firebase-admin");
-
 const serviceAccount = require("./serviceKey.json");
-
 // Initialize firebase-firebase
 const adminApp = initializeAdminApp({
     credential: firebase.credential.cert(serviceAccount)
@@ -30,7 +29,9 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 const firebaseAuth = getAuth(firebaseApp);
+const storage = getStorage(firebaseApp);
 
+const storageRef = ref(storage, 'pictures');
 
 const picturesRef = collection(db, 'pictures');
 const albumsRef = collection(db, 'albums');
@@ -64,4 +65,27 @@ async function createUserInDB (uid, firstName, lastName, signupEmail) {
         });
 }
 
-module.exports = { firebaseAuth, adminAuth, db, retrievePictures,createUserInDB }; //export the app
+async function uploadPictureToDB(fileItem, fileName) {
+    const uploadTask = uploadBytesResumable(storageRef, fileItem);
+
+    uploadTask.on('state_changed',
+        (snapshot) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+        },
+        (error) => {
+            console.log(error);
+        },
+        () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                console.log('File available at', downloadURL);
+                return downloadURL;
+            }).catch((error) => {
+                console.error('Error getting download URL:', error);
+                return false;
+            });
+        }
+    );
+}
+
+module.exports = { firebaseAuth, adminAuth, db, retrievePictures,createUserInDB, uploadPictureToDB }; //export the app
