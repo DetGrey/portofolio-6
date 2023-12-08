@@ -1,5 +1,8 @@
 const { initializeApp } = require("firebase/app");
 const { getAuth } = require("firebase/auth");
+const { getFirestore, collection, query , where, getDocs,setDoc,doc } = require('firebase/firestore');
+const {getStorage, ref, getDownloadURL, uploadBytesResumable} = require("firebase/storage");
+
 
 // firebase-firebase package
 const { initializeApp: initializeAdminApp } = require('firebase-admin/app');
@@ -77,4 +80,27 @@ async function createUserInDB (uid, firstName, lastName, signupEmail) {
         });
 }
 
-module.exports = { firebaseAuth, adminAuth, db, retrievePictures,createUserInDB,retrieveAlbums }; //export the app
+async function uploadPictureToDB(fileItem, fileName) {
+    const uploadTask = uploadBytesResumable(storageRef, fileItem);
+
+    uploadTask.on('state_changed',
+        (snapshot) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+        },
+        (error) => {
+            console.log(error);
+        },
+        () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                console.log('File available at', downloadURL);
+                return downloadURL;
+            }).catch((error) => {
+                console.error('Error getting download URL:', error);
+                return false;
+            });
+        }
+    );
+}
+
+module.exports = { firebaseAuth, adminAuth, db, retrievePictures,createUserInDB, uploadPictureToDB,retrieveAlbums }; //export the app

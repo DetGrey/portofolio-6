@@ -176,3 +176,32 @@ window.addEventListener('click', (event) => {
         console.log('closed')
     }
 });
+
+// Code for uploading pictures
+let fileItem;
+let fileName;
+const pictureFile = document.querySelector('#picture-file');
+pictureFile.addEventListener('change', (event) => {
+    fileItem = pictureFile.files[0];
+    fileName = fileItem.name;
+});
+
+async function uploadPicture () {
+    await fetch('/upload', {
+        method: 'POST',
+        headers: {
+            'Content-Type':'application/json',
+            'Accept':'application/json'
+        },
+        body: JSON.stringify({
+            fileItem: fileItem,
+            fileName: fileName
+        })
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+        });
+}
