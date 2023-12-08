@@ -36,10 +36,10 @@ const picturesRef = collection(db, 'pictures');
 const albumsRef = collection(db, 'albums');
 const usersRef = collection(db, 'users');
 
-let pictures = []; // Global variable to store pictures
+
 
 async function retrievePictures(userUID) {
-
+    let pictures = [];
     const q = query(picturesRef, where('user_id', '==', userUID));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach(doc => {
@@ -47,6 +47,19 @@ async function retrievePictures(userUID) {
     });
 
     return pictures;
+}
+
+
+
+async function retrieveAlbums(userID){
+    let albums = [];
+    const q = query(albumsRef, where('user_id','==', userID));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(doc => {
+        albums.push(doc.data());
+    });
+
+    return albums;
 }
 
 async function createUserInDB (uid, firstName, lastName, signupEmail) {
@@ -64,4 +77,4 @@ async function createUserInDB (uid, firstName, lastName, signupEmail) {
         });
 }
 
-module.exports = { firebaseAuth, adminAuth, db, retrievePictures,createUserInDB }; //export the app
+module.exports = { firebaseAuth, adminAuth, db, retrievePictures,createUserInDB,retrieveAlbums }; //export the app
