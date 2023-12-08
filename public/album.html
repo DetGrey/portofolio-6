@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Album - World of Pictures</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/album.css">
+</head>
+<body>
+<header>
+  <img src="" alt="">
+  <nav>
+    <a class="hidden">gallery <hr></a>
+
+    <a href="login.html" id="logout">Logout</a>
+    <a href="index.html" id="album">Home</a>
+  </nav>
+  <button id="upload-picture-button">Upload Album</button>
+  <h1>World of Pictures</h1>
+</header>
+<main>
+  <section>
+    <h2>Recent Albums</h2>
+    <div id="recent-album"></div>
+  </section>
+</main>
+
+
+<div id="upload-picture-modal" class="modal hidden">
+
+  <div class="upload-picture-modal-content ">
+    <span class="close">&times;</span>
+    <h2>Upload a album</h2>
+    <form class="upload-picture-modal-content-from">
+
+      <label for="picture-file">Upload album</label>
+      <input
+              type="file"
+              name="name"
+              id="picture-file"
+              accept="image/png, image/jpeg"
+              required/>
+
+      <label for="picture-name">Picture name</label>
+      <input type="text" name="name" id="picture-name" placeholder="Picture name" required/>
+
+      <label for="album-name">Album name</label>
+      <input type="text" name="name" id="album-name" placeholder="Album name" required/>
+
+      <label for="city">City location</label>
+      <input type="text" name="name" id="city" placeholder="City name" required>
+
+      <label for="country">Country location</label>
+      <input type="text" name="name" id="country" placeholder="Country name" required>
+
+      <label for="alternative-text">Alternative text</label>
+      <input type="text" name="name" id="alternative-text" placeholder="Picture description" required/>
+
+      <label for="picture-url">Picture url</label>
+      <input type="password" name="name" id="picture-url" placeholder="..." required/>
+
+      <label for="picture-tags">Tags</label>
+      <input type="text" name="name" id="picture-tags" placeholder="Picture tags" required/>
+
+
+      <button id="upload-button" type="button">Upload picture</button>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <p>World of Pictures</p>
+  <p>© 2023</p>
+</footer>
+
+
+<script src="./js/album.js"></script>
+</body>
+</html>

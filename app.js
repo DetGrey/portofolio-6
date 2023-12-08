@@ -4,7 +4,7 @@ const PORT = 5050;
 let userUID = null;
 
 const { signInWithEmailAndPassword,onAuthStateChanged,createUserWithEmailAndPassword } = require("firebase/auth");
-const { firebaseAuth, retrievePictures,createUserInDB,pictures, uploadPictureToDB, retrieveCountryData} = require('./firebase');
+const { firebaseAuth, retrievePictures,createUserInDB,pictures, uploadPictureToDB, retrieveAlbums, albums, retrieveCountryData } = require('./firebase');
 
 
 app.use(express.static(__dirname + '/public'));
@@ -28,6 +28,22 @@ app.get('/pictures', async (req, res) => {
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+app.get('/albums', async (req, res) => {
+    try {
+        const queryResult = await retrieveAlbums(userUID);
+        if (queryResult === albums) {
+            console.log('Returning cached albums');
+        } else {
+            console.log('Querying and returning new albums');
+        }
+        return res.json(queryResult);
+    } catch (error) {
+        console.error('Error retrieving albums:', error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 
 app.listen(PORT, function () {
     console.log(`Demo project at: ${PORT}!`);
