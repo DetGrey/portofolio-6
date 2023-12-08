@@ -65,28 +65,6 @@ const logOut = async () => {
     });
 };
 
-// MODAL SCRIPTS //
-// Modal for uploading pictures
-const uploadPictureModal = document.querySelector('#upload-picture-modal');
-const close = document.querySelector('.close');
-const uploadPictureBtn = document.querySelector('#upload-picture-button');
-// Opens modal when clicking on the button
-uploadPictureBtn.addEventListener('click', () => {
-    uploadPictureModal.classList.toggle('hidden');
-    console.log('clicked')
-});
-// Closes modal when clicking on the X
-close.addEventListener('click', () => {
-    uploadPictureModal.classList.toggle('hidden');
-    console.log('clicked')
-});
-// Closes modal when clicking outside of it
-// window.addEventListener('click', (event) => {
-//     if (event.target == uploadPictureModal) {
-//         uploadPictureModal.classList.toggle('hidden');
-//         console.log('closed')
-//     }
-// });
 
 
 

@@ -34,6 +34,7 @@ a {
 }
 #map {
     height: 300px;
+    z-index: 1;
 }
 
 /* ----------------------------------------- HEADINGS AND TEXT */
@@ -155,7 +156,6 @@ hr {
  /*MODAL STYLING*/
 .upload-picture-modal {
     position: fixed;
-    z-index: 1;
     left: 0;
     top: 0;
     width: 100%;
@@ -169,6 +169,7 @@ hr {
 .upload-picture-modal-content {
     /*outline: black solid 1px;*/
     display: flex;
+    z-index: 2;
     flex-direction: column;
     position: absolute;
     left: 50%;

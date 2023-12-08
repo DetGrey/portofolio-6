@@ -39,9 +39,11 @@ const usersRef = collection(db, 'users');
 async function retrievePictures (userUID)  {
     const q = query(picturesRef, where('user_id', '==', userUID));
     const querySnapshot = await getDocs(q);
-
-    console.log(querySnapshot);
-    // return querySnapshot;
+    const pictures = [];
+    querySnapshot.forEach(doc => {
+        pictures.push(doc.data());
+    })
+    return pictures;
 }
 
 

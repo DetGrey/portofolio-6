@@ -128,14 +128,36 @@ async function renderPictures () {
         .then((response) => {
             return response.json();
         })
-        .then((querySnapshot) => {
-            console.log(querySnapshot);
-            querySnapshot.forEach(doc => {
-                console.log(doc.data());
+        .then((pictures) => {
+            console.log(pictures);
+            pictures.forEach(picture => {
+                console.log(picture);
                 const img = document.createElement('img');
-                img.src = doc.data().img_path;
+                img.src = picture.img_path;
                 recentPictures.appendChild(img);
             });
         });
 }
 
+// MODAL SCRIPTS //
+// Modal for uploading pictures
+const uploadPictureModal = document.querySelector('#upload-picture-modal');
+const close = document.querySelector('.close');
+const uploadPictureBtn = document.querySelector('#upload-picture-button');
+// Opens modal when clicking on the button
+uploadPictureBtn.addEventListener('click', () => {
+    uploadPictureModal.classList.toggle('hidden');
+    console.log('clicked')
+});
+// Closes modal when clicking on the X
+close.addEventListener('click', () => {
+    uploadPictureModal.classList.toggle('hidden');
+    console.log('clicked')
+});
+// Closes modal when clicking outside of it
+window.addEventListener('click', (event) => {
+    if (event.target === uploadPictureModal) {
+        uploadPictureModal.classList.toggle('hidden');
+        console.log('closed')
+    }
+});
