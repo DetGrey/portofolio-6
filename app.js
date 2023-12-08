@@ -4,7 +4,7 @@ const PORT = 5050;
 let userUID = null;
 
 const { signInWithEmailAndPassword,onAuthStateChanged,createUserWithEmailAndPassword } = require("firebase/auth");
-const { firebaseAuth, retrievePictures,createUserInDB } = require('./firebase');
+const { firebaseAuth, retrievePictures,createUserInDB,pictures } = require('./firebase');
 
 
 app.use(express.static(__dirname + '/public'));
@@ -16,9 +16,19 @@ app.get('/home', async (req, res) => {
     return res.json(loginResponse);
 })
 app.get('/pictures', async (req, res) => {
-    const querySnapshot = await retrievePictures(userUID);
-    return res.json(querySnapshot);
-})
+    try {
+        const queryResult = await retrievePictures(userUID);
+        if (queryResult === pictures) {
+            console.log('Returning cached pictures');
+        } else {
+            console.log('Querying and returning new pictures');
+        }
+        return res.json(queryResult);
+    } catch (error) {
+        console.error('Error retrieving pictures:', error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 app.listen(PORT, function () {
     console.log(`Demo project at: ${PORT}!`);
@@ -140,3 +150,4 @@ async function monitorAuthState() {
     });
     return signedIn;
 }
+

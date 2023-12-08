@@ -36,13 +36,18 @@ const picturesRef = collection(db, 'pictures');
 const albumsRef = collection(db, 'albums');
 const usersRef = collection(db, 'users');
 
-async function retrievePictures (userUID)  {
+let pictures = []; // Global variable to store pictures
+
+async function retrievePictures(userUID) {
+    if (pictures.length > 0) {
+        return pictures;
+    }
     const q = query(picturesRef, where('user_id', '==', userUID));
     const querySnapshot = await getDocs(q);
-    const pictures = [];
     querySnapshot.forEach(doc => {
         pictures.push(doc.data());
-    })
+    });
+
     return pictures;
 }
 
