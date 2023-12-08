@@ -4,7 +4,7 @@ const { getAuth } = require("firebase/auth");
 // firebase-firebase package
 const { initializeApp: initializeAdminApp } = require('firebase-admin/app');
 const { getAuth: getAdminAuth } = require('firebase-admin/auth');
-const { getFirestore, collection, query , where, getDocs } = require('firebase/firestore');
+const { getFirestore, collection, query , where, getDocs,setDoc,doc } = require('firebase/firestore');
 
 const firebase = require("firebase-admin");
 
@@ -46,5 +46,19 @@ async function retrievePictures (userUID)  {
     return pictures;
 }
 
+async function createUserInDB (uid, firstName, lastName, signupEmail) {
+    await setDoc(doc(usersRef), {
+        first_name: firstName,
+        last_name: lastName,
+        email: signupEmail,
+        uid: uid
+    })
+        .then(() => {
+            console.log('document uploaded')
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
 
-module.exports = { firebaseAuth, adminAuth, db, retrievePictures }; //export the app
+module.exports = { firebaseAuth, adminAuth, db, retrievePictures,createUserInDB }; //export the app

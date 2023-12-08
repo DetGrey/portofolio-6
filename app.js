@@ -3,8 +3,8 @@ const app = express();
 const PORT = 5050;
 let userUID = null;
 
-const { signInWithEmailAndPassword,onAuthStateChanged } = require("firebase/auth");
-const { firebaseAuth, retrievePictures } = require('./firebase');
+const { signInWithEmailAndPassword,onAuthStateChanged,createUserWithEmailAndPassword } = require("firebase/auth");
+const { firebaseAuth, retrievePictures,createUserInDB } = require('./firebase');
 
 
 app.use(express.static(__dirname + '/public'));
@@ -30,6 +30,13 @@ app.post('/login',async (req, res) => {
     console.log('login ' + loginResponse);
     res.json(loginResponse);
 })
+
+app.post('/register', async (req, res) =>{
+    console.log('post request');
+    const response = await createNewUser(req.body.email,req.body.password,req.body.firstName,req.body.lastName)
+    console.log('signup ' + response);
+    res.json(response);
+})
 app.get('/logout',async (req, res) => {
     const loginResponse = await logOut();
     console.log('logout ' + loginResponse);
@@ -53,6 +60,20 @@ async function authenticateLogin(emailValue, passwordValue) {
             return false;
         });
 }
+
+async function createNewUser(emailValue,passwordValue,firstnameValue,lastnameValue){
+    return createUserWithEmailAndPassword(firebaseAuth,emailValue,passwordValue)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            createUserInDB(user.uid, firstnameValue, lastnameValue, emailValue);
+            return true
+
+        }).catch((error) => {
+            console.log(error);
+            return false;
+        });
+}
+
 
 const logOut = async () => {
     return firebaseAuth.signOut().then(() => {
