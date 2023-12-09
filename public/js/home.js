@@ -10,9 +10,8 @@ L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.{ext}?ap
 
 // -------------------------------------------- GEOJSON FOR HEAT MAP ( LEAFLET JS )
 // GEOJSON FILE FETCHED TO CREATE AREAS FOR EACH COUNTRY
-// https://stackoverflow.com/questions/66056579/webpack-referenceerror-a-function-is-not-defined
-const renderGeoJSON = (countryData) => {
-    fetch('./countries.geo.json')
+async function renderGeoJSON (countryData) {
+    fetch('./js/countries.geo.json')
         .then((r) => r.json())
         .then((data) => {
             // ACCESS DATA IN THE GEOJSON
@@ -71,28 +70,6 @@ function getColor(value) {
 
 // -------------------------------------------- RETRIEVE PICTURES FROM FIREBASE
 
-
-const logout = async () => {
-    console.log('logout was clicked');
-
-    await fetch('/logout', {
-        method: 'GET',
-    })
-        .then((response) => {
-            return response.json();
-        })
-        .then((data) => {
-            console.log(data);
-            if (data === true) {
-                location.href = `/login.html`;
-            }
-        });
-
-}
-
-const logoutBtn = document.querySelector('#logout');
-logoutBtn.addEventListener('click', logout);
-
 async function loadPage () {
     await fetch('/home', {
         method: 'GET',
@@ -107,74 +84,40 @@ async function loadPage () {
         .then((data) => {
             console.log(data);
             if (data !== true) {
+                sessionStorage.clear();
                 location.href = `/login.html`;
             }
             else {
-                renderPictures();
+                renderPictures(recentPictures);
             }
         });
 }
 loadPage();
 
 const recentPictures = document.querySelector('#recent-pictures');
-async function renderPictures () {
-    const sessionPictures = JSON.parse(sessionStorage.getItem("sessionPictures"))
-    console.log(sessionPictures)
-    if (sessionPictures) {
-        console.log('Returning cached pictures')
-        sessionPictures.forEach(picture => {
-            console.log(picture);
-            const img = document.createElement('img');
-            img.src = picture.img_path;
-            recentPictures.appendChild(img);
-        });
-    }
-    else {
-        await fetch('/pictures', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-        })
-            .then((response) => {
-                return response.json();
-            })
-            .then((pictures) => {
-                sessionStorage.setItem("sessionPictures", JSON.stringify(pictures))
-                console.log(pictures);
-                pictures.forEach(picture => {
-                    console.log(picture);
-                    const img = document.createElement('img');
-                    img.src = picture.img_path;
-                    recentPictures.appendChild(img);
-                });
-            });
-    }
-}
 
 // MODAL SCRIPTS //
 // Modal for uploading pictures
-const uploadPictureModal = document.querySelector('#upload-picture-modal');
-const close = document.querySelector('.close');
-const uploadPictureBtn = document.querySelector('#upload-picture-button');
-// Opens modal when clicking on the button
-uploadPictureBtn.addEventListener('click', () => {
-    uploadPictureModal.classList.toggle('hidden');
-    console.log('clicked')
-});
-// Closes modal when clicking on the X
-close.addEventListener('click', () => {
-    uploadPictureModal.classList.toggle('hidden');
-    console.log('clicked')
-});
-// Closes modal when clicking outside of it
-window.addEventListener('click', (event) => {
-    if (event.target === uploadPictureModal) {
-        uploadPictureModal.classList.toggle('hidden');
-        console.log('closed')
-    }
-});
+// const uploadPictureModal = document.querySelector('#upload-picture-modal');
+// const close = document.querySelector('.close');
+// const uploadPictureBtn = document.querySelector('#upload-picture-button');
+// // Opens modal when clicking on the button
+// uploadPictureBtn.addEventListener('click', () => {
+//     uploadPictureModal.classList.toggle('hidden');
+//     console.log('clicked')
+// });
+// // Closes modal when clicking on the X
+// close.addEventListener('click', () => {
+//     uploadPictureModal.classList.toggle('hidden');
+//     console.log('clicked')
+// });
+// // Closes modal when clicking outside of it
+// window.addEventListener('click', (event) => {
+//     if (event.target === uploadPictureModal) {
+//         uploadPictureModal.classList.toggle('hidden');
+//         console.log('closed')
+//     }
+// });
 
 // Code for uploading pictures
 let fileItem;
@@ -204,3 +147,4 @@ const uploadBtn = document.querySelector('#upload-button');
 //             console.log(data);
 //         });
 // }
+

@@ -1,3 +1,9 @@
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
 /*!
          * Applies this DocumentMask to 'data' and computes the list of field paths
          * that were specified in the mask but are not present in 'data'.

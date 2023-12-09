@@ -12,6 +12,7 @@ async function loadPage () {
         .then((data) => {
             console.log(data);
             if (data !== true) {
+                sessionStorage.clear();
                 location.href = `/login.html`;
             }
             else {

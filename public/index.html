@@ -34,6 +34,7 @@
     <h1>World of Pictures</h1>
 </header>
 <main>
+    <input type="file" id="filepicker">
     <section>
         <h2>Rejoice in your memories from all over the world</h2>
         <div id="map"></div>
@@ -88,11 +89,21 @@
     </div>
 </div>
 
+<div id="picture-modal" class="modal hidden">
+    <div id="picture-modal-content">
+        <span class="close">&times;</span>
+        <div id="img-data-div">
+
+        </div>
+    </div>
+</div>
+
 <footer>
     <p>World of Pictures</p>
     <p>© 2023</p>
 </footer>
 
+<script src="./js/global.js"></script>
 <script src="./js/home.js"></script>
 </body>
 </html>
