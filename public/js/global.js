@@ -81,6 +81,7 @@ function appendPictureModalContent (picture) {
 }
 
 const uploadPictureModal = document.querySelector('#upload-picture-modal');
+const uploadAlbumModal = document.querySelector('#upload-picture-modal');
 const uploadPictureBtn = document.querySelector('#upload-picture-button');
 const pictureModal = document.querySelector('#picture-modal');
 const imgDataDiv = document.querySelector('#img-data-div');
@@ -98,6 +99,9 @@ close.forEach(close => {
         else if (!uploadPictureModal.classList.contains('hidden')) {
             uploadPictureModal.classList.toggle('hidden');
         }
+        else if (!uploadAlbumModal.classList.contains('hidden')) {
+            uploadAlbumModal.classList.toggle('hidden');
+        }
     });
 });
 // Closes modal when clicking outside of it
@@ -111,3 +115,28 @@ close.forEach(close => {
 //     //     console.log('closed')
 //     // }
 // });
+
+// -------------------------------------------- UPLOAD PICTURE
+const pictureFile = document.querySelector('#picture-file');
+
+const uploadBtn = document.querySelector('#upload-button');
+uploadBtn.addEventListener('click', uploadPicture);
+
+async function uploadPicture () {
+    const formData = new FormData()
+    formData.append('blob', pictureFile.files[0])
+    console.log(pictureFile)
+    console.log(pictureFile.files[0])
+    console.log(formData)
+    await fetch('/upload', {
+        method: 'POST',
+        body: formData
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+        });
+}
+

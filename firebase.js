@@ -4,15 +4,6 @@ const { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onA
 const { getFirestore, collection, query , where, getDocs,setDoc,doc } = require('firebase/firestore');
 const { getStorage, ref, getDownloadURL, uploadBytesResumable} = require("firebase/storage");
 
-// firebase-firebase package
-// const { initializeApp: initializeAdminApp } = require('firebase-admin/app');
-// const firebase = require("firebase-admin");
-// const serviceAccount = require("./serviceKey.json");
-// Initialize firebase-firebase
-// const adminApp = initializeAdminApp({
-//     credential: firebase.credential.cert(serviceAccount)
-// });
-
 // Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyDQhW9ZGoQNsEOYsXK6MolkRgzupxOgL8E",
@@ -160,7 +151,7 @@ async function retrieveAlbums(userID){
 }
 
 
-async function uploadPictureToDB(file) {
+async function uploadPictureToStorage(file) {
     console.log(file)
 
     const date = new Date().toISOString().slice(0, 19).replace('T', '-').replaceAll(':', '');
@@ -190,5 +181,21 @@ async function uploadPictureToDB(file) {
         }
     );
 }
+async function uploadPictureToDB(imgName, imgPath, altText, dateCreated, country, userID) {
+    await setDoc(doc(picturesRef), {
+        img_name: imgName,
+        img_path: imgPath,
+        alt_text: altText,
+        date_created: dateCreated,
+        country: country,
+        user_id: userID
+    })
+        .then(() => {
+            console.log('document uploaded')
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
 
-module.exports = { authenticateLogin, monitorAuthState, logOut, createNewUser, db, retrievePictures, uploadPictureToDB, retrieveCountryData, retrieveAlbums }; //export the app
+module.exports = { authenticateLogin, monitorAuthState, logOut, createNewUser, retrievePictures, uploadPictureToStorage, uploadPictureToDB, retrieveCountryData, retrieveAlbums }; //export the app

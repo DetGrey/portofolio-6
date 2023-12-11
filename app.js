@@ -87,8 +87,9 @@ app.post('/upload', async (req, res) => {
 app.post('/upload', upload.single('blob'),async (req, res) => {
     // req.file contains the uploaded file
     console.log(req.file);
-    const uploadResponse = await uploadPictureToDB(req.file);
-    console.log(uploadResponse);
+    const downloadURL = await uploadPictureToStorage(req.file);
+    console.log(downloadURL);
+    const uploadResponse = await uploadPictureToDB(downloadURL);
     // res.json(uploadResponse);
     // Process the file or perform any desired operation
 
