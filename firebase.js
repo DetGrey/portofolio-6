@@ -144,8 +144,11 @@ async function retrieveAlbums(userID){
     const q = query(albumsRef, where('user_id','==', userID));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach(doc => {
-        albums.push(doc.data());
-    });
+        albums.push({
+            data: doc.data(),
+            id: doc.id
+        });
+    })
 
     return albums;
 }
@@ -153,48 +156,64 @@ async function retrieveAlbums(userID){
 
 async function uploadPictureToStorage(file) {
     console.log(file)
+    let url = '';
 
     const date = new Date().toISOString().slice(0, 19).replace('T', '-').replaceAll(':', '');
     const storageRef = ref(storage, 'pictures/' + date + "-" + file.originalname);
+
+    const type = file.originalname.includes('.png') ? 'png' :
+                        file.originalname.includes('.jpg') ? 'jpg' :
+                        file.originalname.includes('.jpeg') ? 'jpeg' :
+                        file.originalname.includes('.gif') ? 'gif' :
+                        file.originalname.includes('.svg') ? 'svg' :
+                        'unknown';
+
     const metadata = {
-        contentType: "image/png"
+        contentType: "image/" + type
     };
 
     const uploadTask = uploadBytesResumable(storageRef, file.buffer, metadata);
-
-    uploadTask.on('state_changed',
-        (snapshot) => {
-            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
-        },
-        (error) => {
-            console.log(error);
-        },
-        () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                console.log('File available at', downloadURL);
-                return downloadURL;
-            }).catch((error) => {
-                console.error('Error getting download URL:', error);
-                return false;
-            });
-        }
-    );
+    return new Promise((resolve, reject) => {
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                const progress = Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+            },
+            (error) => {
+                console.log(error);
+            },
+            async () => {
+                await getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    console.log('File available at', downloadURL);
+                    resolve(downloadURL);
+                }).catch((error) => {
+                    console.error('Error getting download URL:', error);
+                    reject(error);
+                });
+            }
+        );
+    });
 }
-async function uploadPictureToDB(imgName, imgPath, altText, dateCreated, country, userID) {
-    await setDoc(doc(picturesRef), {
-        img_name: imgName,
-        img_path: imgPath,
-        alt_text: altText,
-        date_created: dateCreated,
-        country: country,
-        user_id: userID
+async function uploadPictureToDB(data, userUID) {
+    return setDoc(doc(picturesRef), {
+        img_name: data.img_name,
+        img_path: data.img_path,
+        date_created: data.date_created,
+        album_id: data.album_id,
+        city: data.city,
+        country: data.country,
+        favorite: data.favorite,
+        tags: data.tags,
+        alt_text: data.alt_text,
+        user_id: userUID
     })
         .then(() => {
-            console.log('document uploaded')
+            console.log('picture uploaded');
+            return true
         })
         .catch((error) => {
             console.log(error);
+            return false
         });
 }
 

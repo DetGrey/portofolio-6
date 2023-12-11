@@ -12,7 +12,8 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 const { monitorAuthState, retrievePictures, uploadPictureToDB, retrieveAlbums, retrieveCountryData,
-    authenticateLogin, createNewUser, logOut } = require('./firebase');
+    authenticateLogin, createNewUser, logOut, uploadPictureToStorage
+} = require('./firebase');
 
 
 app.use(express.static(__dirname + '/public'));
@@ -72,26 +73,14 @@ app.get('/logout',async (req, res) => {
     console.log('logout ' + loginResponse);
     res.json(loginResponse);
 })
-/*
-app.post('/upload', async (req, res) => {
-    console.log('upload request');
-    console.log(req.file)
-    const file = req.body;
-    // console.log(file);
-    // const uploadResponse = await uploadPictureToDB(req.body.fileItem, req.body.fileItem.name);
-    // console.log(uploadResponse);
-    // res.json(uploadResponse);
-});
 
- */
-app.post('/upload', upload.single('blob'),async (req, res) => {
+app.post('/upload', upload.single('blob'), async (req, res) => {
     // req.file contains the uploaded file
-    console.log(req.file);
     const downloadURL = await uploadPictureToStorage(req.file);
-    console.log(downloadURL);
-    const uploadResponse = await uploadPictureToDB(downloadURL);
-    // res.json(uploadResponse);
-    // Process the file or perform any desired operation
-
-    res.send('File uploaded successfully.');
+    res.json(downloadURL);
+});
+app.post('/upload-picture-to-db', async (req, res) => {
+    const response = await uploadPictureToDB(req.body, userUID)
+    console.log('upload to db ' + response);
+    res.json(response);
 });

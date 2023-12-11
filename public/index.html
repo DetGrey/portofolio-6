@@ -52,7 +52,7 @@
     <div class="upload-picture-modal-content ">
         <span class="close">&times;</span>
         <h2>Upload a picture</h2>
-        <form class="upload-picture-modal-content-from" autocomplete="off">
+        <form class="upload-picture-modal-content-from" id="upload-picture-form" autocomplete="off" method="post">
 
             <label for="picture-file">Upload file</label>
             <input
@@ -61,28 +61,28 @@
                     id="picture-file"
                     accept="image/png, image/jpeg"
                     required/>
-
+            <br>
             <label for="picture-name">Picture name</label>
-            <input type="text" name="name" id="picture-name" placeholder="Picture name" required/>
-
-            <label for="album-name">Album name</label>
-            <input type="text" name="name" id="album-name" placeholder="Album name" required/>
-
+            <input type="text" name="picture-name" id="picture-name" placeholder="Picture name" required/>
+            <br>
+            <label for="select-album-name">Album</label>
+            <select name="album-name" id="select-album-name"></select>
+            <br>
             <label for="city">City location</label>
-            <input type="text" name="name" id="city" placeholder="City name" required>
-
+            <input type="text" name="city" id="city" placeholder="City name" required>
+            <br>
             <label for="country">Country location</label>
-            <input type="text" name="name" id="country" placeholder="Country name" required>
-
+            <input type="text" name="country" id="country" placeholder="Country name" required>
+            <br>
             <label for="alternative-text">Alternative text</label>
-            <input type="text" name="name" id="alternative-text" placeholder="Picture description" required/>
-
-            <label for="picture-url">Picture url</label>
-            <input type="text" name="name" id="picture-url" placeholder="..." required/>
-
+            <input type="text" name="alt-text" id="alternative-text" placeholder="Picture description" required/>
+            <br>
             <label for="picture-tags">Tags</label>
-            <input type="text" name="name" id="picture-tags" placeholder="Picture tags" required/>
-
+            <input type="text" name="picture-tags" id="picture-tags" placeholder="Picture tags" required/>
+            <br>
+            <label for="favorite">favorite</label>
+            <input type="checkbox" name="favorite" id="favorite" />
+            <br>
 
             <button id="upload-button" type="button">Upload picture</button>
         </form>

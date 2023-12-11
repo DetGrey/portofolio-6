@@ -1,3 +1,5 @@
+const albumNames = [];
+
 // -------------------------------------------- LOGOUT
 const logout = async () => {
     console.log('logout was clicked');
@@ -125,9 +127,6 @@ uploadBtn.addEventListener('click', uploadPicture);
 async function uploadPicture () {
     const formData = new FormData()
     formData.append('blob', pictureFile.files[0])
-    console.log(pictureFile)
-    console.log(pictureFile.files[0])
-    console.log(formData)
     await fetch('/upload', {
         method: 'POST',
         body: formData
@@ -135,8 +134,95 @@ async function uploadPicture () {
         .then((response) => {
             return response.json();
         })
-        .then((data) => {
-            console.log(data);
+        .then((url) => {
+            console.log(url);
+            uploadPictureToDB(url);
         });
 }
 
+async function uploadPictureToDB(url) {
+    const form = new FormData(document.querySelector('#upload-picture-form'));
+    console.log(form)
+
+    const date = new Date();
+    let favorite = false;
+    if (form.get('favorite') === 'on') {
+        favorite = true;
+    }
+    const tags = form.get('picture-tags').replaceAll(' ', '').split(',');
+
+    const pictureData = {
+        img_name: form.get('picture-name'),
+        img_path: url,
+        date_created: date,
+        album_id: form.get('album-name'),
+        city: toTitleCase(form.get('city')),
+        country: toTitleCase(form.get('country')),
+        favorite: favorite,
+        tags: tags,
+        alt_text: form.get('alt-text')
+    }
+
+    await fetch('/upload-picture-to-db', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(pictureData)
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+            if (data === true) {
+                alert('Picture uploaded');
+                sessionStorage.removeItem("sessionPictures");
+                location.reload();
+            }
+            else {
+                alert('Something went wrong, please try again');
+            }
+        });
+}
+async function renderAlbums() {
+    const selectAlbum = document.querySelector('#select-album-name');
+    const sessionAlbums = JSON.parse(sessionStorage.getItem("sessionAlbums"))
+    if (sessionAlbums) {
+        console.log('Returning cached albums');
+        sessionAlbums.forEach(album => {
+            albumNames.push({
+                name: album.data.album_name,
+                id: album.id
+            });
+            selectAlbum.innerHTML += '<option value="' + album.id + '">' + album.data.album_name + '</option>';
+        })
+    }
+    else {
+        await fetch('/albums', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+        })
+            .then((response) => {
+                return response.json();
+            })
+            .then((albums) => {
+                sessionStorage.setItem("sessionAlbums", JSON.stringify(albums))
+                albums.forEach(album => {
+                    albumNames.push({
+                        name: album.data.album_name,
+                        id: album.id
+                    });
+                    selectAlbum.innerHTML += '<option value="' + album.id + '">' + album.data.album_name + '</option>';
+                });
+            });
+    }
+}
+
+// https://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript
+function toTitleCase(str) {
+    return str.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
+}
