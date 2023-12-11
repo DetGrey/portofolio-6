@@ -6,7 +6,6 @@ const updateUID = (uid) => userUID = uid;
 
 module.exports = { userUID, updateUID };
 
-    const { signInWithEmailAndPassword,onAuthStateChanged,createUserWithEmailAndPassword } = require("firebase/auth");
 const { monitorAuthState, retrievePictures, uploadPictureToDB, retrieveAlbums, retrieveCountryData,
     authenticateLogin, createNewUser, logOut } = require('./firebase');
 
@@ -71,8 +70,9 @@ app.get('/logout',async (req, res) => {
 
 app.post('/upload', async (req, res) => {
     console.log('upload request');
+    console.log(req.file)
     const file = req.body;
-    console.log(file);
+    // console.log(file);
     // const uploadResponse = await uploadPictureToDB(req.body.fileItem, req.body.fileItem.name);
     // console.log(uploadResponse);
     // res.json(uploadResponse);

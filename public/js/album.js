@@ -24,7 +24,6 @@ loadPage();
 const recentAlbums = document.querySelector('#recent-album');
 async function renderAlbums () {
     const sessionAlbums = JSON.parse(sessionStorage.getItem("sessionAlbums"))
-    console.log(sessionAlbums)
     if (sessionAlbums) {
         console.log('Returning cached albums')
         sessionAlbums.forEach(album => {

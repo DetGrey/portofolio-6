@@ -101,7 +101,7 @@ const recentPictures = document.querySelector('#recent-pictures');
 // const uploadPictureModal = document.querySelector('#upload-picture-modal');
 // const close = document.querySelector('.close');
 // const uploadPictureBtn = document.querySelector('#upload-picture-button');
-// // Opens modal when clicking on the button
+// Opens modal when clicking on the button
 // uploadPictureBtn.addEventListener('click', () => {
 //     uploadPictureModal.classList.toggle('hidden');
 //     console.log('clicked')
@@ -124,27 +124,29 @@ let fileItem;
 let fileName;
 const pictureFile = document.querySelector('#picture-file');
 pictureFile.addEventListener('change', (event) => {
-    const file = new FormData()
-    file.append('file', pictureFile.files[0])
-    fileItem = file;
-    fileName = fileItem.name;
+
+    // fileName = fileItem.name;
 });
 
 const uploadBtn = document.querySelector('#upload-button');
 
 //  ------------------------------- BELOW CODE DOES NOT WORK
-// uploadBtn.addEventListener('click', uploadPicture);
-// async function uploadPicture () {
-//     console.log(fileItem)
-//     await fetch('/upload', {
-//         method: 'POST',
-//         body: fileItem
-//     })
-//         .then((response) => {
-//             return response.json();
-//         })
-//         .then((data) => {
-//             console.log(data);
-//         });
-// }
+uploadBtn.addEventListener('click', uploadPicture);
+async function uploadPicture () {
+    const formData = new FormData()
+    formData.append('file', pictureFile.files[0])
+    console.log(pictureFile)
+    console.log(pictureFile.files[0])
+    console.log(formData)
+    await fetch('/upload', {
+        method: 'POST',
+        body: formData
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+        });
+}
 
