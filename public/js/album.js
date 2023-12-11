@@ -28,17 +28,7 @@ async function renderAlbums () {
         console.log('Returning cached albums');
         sessionAlbums.forEach(album => {
             console.log(album);
-
-            // Create a div element to hold album information
-            const albumDiv = document.createElement('div');
-
-            // Create a paragraph element for the album name
-            const albumName = document.createElement('p');
-            albumName.textContent = album.album_name; // Assuming your album object has a 'name' property
-            albumDiv.appendChild(albumName);
-
-            // Append the album div to the #recent-album element
-            recentAlbums.appendChild(albumDiv);
+            appendAlbums(album)
         });
     }
     else {
@@ -54,11 +44,36 @@ async function renderAlbums () {
             })
             .then((albums) => {
                 sessionStorage.setItem("sessionAlbums", JSON.stringify(albums))
-                console.log(albums[0]);
+                console.log(albums);
                 albums.forEach(album => {
                     console.log(album);
+                    appendAlbums(album)
                 });
             });
     }
 }
+function appendAlbums(album){
+    const albumDiv = document.createElement('div');
 
+    // Create a paragraph element for the album name
+    const albumName = document.createElement('p');
+    albumName.textContent = album.album_name; // Assuming your album object has a 'name' property
+    albumDiv.appendChild(albumName);
+
+    // Append the album div to the #recent-album element
+    recentAlbums.appendChild(albumDiv);
+}
+
+const uploadAlbumModal = document.querySelector('#upload-album-modal');
+const uploadAlbumBtn = document.querySelector('#upload-album-button');
+uploadAlbumBtn.addEventListener('click', () => {
+    uploadAlbumModal.classList.toggle('hidden');
+});
+
+close.forEach(close => {
+    close.addEventListener('click', () => {
+        if (!uploadAlbumModal.classList.contains('hidden')) {
+            uploadAlbumModal.classList.toggle('hidden');
+        }
+    });
+});

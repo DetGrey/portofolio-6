@@ -18,34 +18,34 @@
     <a href="login.html" id="logout">Logout</a>
     <a href="index.html" id="album">Home</a>
   </nav>
-  <button id="upload-picture-button">Upload Album</button>
+  <button id="upload-album-button">Upload Album</button>
   <h1>World of Pictures</h1>
 </header>
 <main>
   <section>
-    <h2>Recent Albums</h2>
+    <h2>Albums</h2>
     <div id="recent-album"></div>
   </section>
 </main>
 
 
-<div id="upload-picture-modal" class="modal hidden">
+<div id="upload-album-modal" class="modal hidden">
 
-  <div class="upload-picture-modal-content ">
+  <div class="upload-album-modal-content ">
     <span class="close">&times;</span>
     <h2>Upload a album</h2>
-    <form class="upload-picture-modal-content-from">
+    <form class="upload-album-modal-content-from">
 
-      <label for="picture-file">Upload album</label>
+      <label for="album-file">Upload album</label>
       <input
               type="file"
               name="name"
-              id="picture-file"
+              id="album-file"
               accept="image/png, image/jpeg"
               required/>
 
-      <label for="picture-name">Picture name</label>
-      <input type="text" name="name" id="picture-name" placeholder="Picture name" required/>
+      <label for="album-name">Album name</label>
+      <input type="text" name="name" id="album-name" placeholder="album name" required/>
 
       <label for="album-name">Album name</label>
       <input type="text" name="name" id="album-name" placeholder="Album name" required/>
@@ -57,16 +57,16 @@
       <input type="text" name="name" id="country" placeholder="Country name" required>
 
       <label for="alternative-text">Alternative text</label>
-      <input type="text" name="name" id="alternative-text" placeholder="Picture description" required/>
+      <input type="text" name="name" id="alternative-text" placeholder="album description" required/>
 
-      <label for="picture-url">Picture url</label>
-      <input type="password" name="name" id="picture-url" placeholder="..." required/>
+      <label for="album-url">album url</label>
+      <input type="password" name="name" id="album-url" placeholder="..." required/>
 
-      <label for="picture-tags">Tags</label>
-      <input type="text" name="name" id="picture-tags" placeholder="Picture tags" required/>
+      <label for="album-tags">Tags</label>
+      <input type="text" name="name" id="album-tags" placeholder="album tags" required/>
 
 
-      <button id="upload-button" type="button">Upload picture</button>
+      <button id="submit-album-button" type="button">Upload album</button>
     </form>
   </div>
 </div>
