@@ -1,10 +1,23 @@
-#recent-album {
+
+.create-album {
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+}
+#albums {
+    display: flex;
+    flex-direction: column;
+}
+
+.album-object {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
 }
 
 
+
+/* --------------------------ALBUM Modal ------------------------------------*/
 .upload-album-modal-content {
     /*outline: black solid 1px;*/
     display: flex;
@@ -22,6 +35,9 @@
     font-size: 1.3rem;
 }
 
+
+
+
 .close {
     color: #aaaaaa;
     font-size: 30px;
@@ -35,3 +51,4 @@
     text-decoration: none;
     cursor: pointer;
 }
+

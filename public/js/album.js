@@ -21,7 +21,7 @@ async function loadPage () {
         });
 }
 loadPage();
-const recentAlbums = document.querySelector('#recent-album');
+const Albums = document.querySelector('#albums');
 async function renderAlbums () {
     const sessionAlbums = JSON.parse(sessionStorage.getItem("sessionAlbums"))
     if (sessionAlbums) {
@@ -48,20 +48,23 @@ async function renderAlbums () {
                 albums.forEach(album => {
                     console.log(album);
                     appendAlbums(album)
+
                 });
             });
     }
 }
 function appendAlbums(album){
     const albumDiv = document.createElement('div');
-
-    // Create a paragraph element for the album name
+    albumDiv.setAttribute('class','album-object')
     const albumName = document.createElement('p');
-    albumName.textContent = album.album_name; // Assuming your album object has a 'name' property
+    albumName.textContent = album.album_name;
     albumDiv.appendChild(albumName);
+    const albumBtn = document.createElement('button')
+    albumBtn.setAttribute('class','changBtn')
+    albumBtn.textContent = 'Change Name'
+    albumDiv.appendChild(albumBtn)
+    Albums.appendChild(albumDiv);
 
-    // Append the album div to the #recent-album element
-    recentAlbums.appendChild(albumDiv);
 }
 
 const uploadAlbumModal = document.querySelector('#upload-album-modal');
@@ -77,3 +80,4 @@ close.forEach(close => {
         }
     });
 });
+

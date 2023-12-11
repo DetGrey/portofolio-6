@@ -18,13 +18,15 @@
     <a href="login.html" id="logout">Logout</a>
     <a href="index.html" id="album">Home</a>
   </nav>
-  <button id="upload-album-button">Upload Album</button>
   <h1>World of Pictures</h1>
 </header>
 <main>
   <section>
+    <div class="create-album">
+      <button id="upload-album-button">Create Album</button>
+    </div>
     <h2>Albums</h2>
-    <div id="recent-album"></div>
+    <div id="albums"></div>
   </section>
 </main>
 
@@ -33,40 +35,14 @@
 
   <div class="upload-album-modal-content ">
     <span class="close">&times;</span>
-    <h2>Upload a album</h2>
+    <h2>Create An Album</h2>
     <form class="upload-album-modal-content-from">
 
-      <label for="album-file">Upload album</label>
-      <input
-              type="file"
-              name="name"
-              id="album-file"
-              accept="image/png, image/jpeg"
-              required/>
 
       <label for="album-name">Album name</label>
       <input type="text" name="name" id="album-name" placeholder="album name" required/>
 
-      <label for="album-name">Album name</label>
-      <input type="text" name="name" id="album-name" placeholder="Album name" required/>
-
-      <label for="city">City location</label>
-      <input type="text" name="name" id="city" placeholder="City name" required>
-
-      <label for="country">Country location</label>
-      <input type="text" name="name" id="country" placeholder="Country name" required>
-
-      <label for="alternative-text">Alternative text</label>
-      <input type="text" name="name" id="alternative-text" placeholder="album description" required/>
-
-      <label for="album-url">album url</label>
-      <input type="password" name="name" id="album-url" placeholder="..." required/>
-
-      <label for="album-tags">Tags</label>
-      <input type="text" name="name" id="album-tags" placeholder="album tags" required/>
-
-
-      <button id="submit-album-button" type="button">Upload album</button>
+      <button id="submit-album-button" type="button">Create Album</button>
     </form>
   </div>
 </div>
