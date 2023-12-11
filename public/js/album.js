@@ -22,6 +22,8 @@ async function loadPage () {
 }
 loadPage();
 const Albums = document.querySelector('#albums');
+
+
 async function renderAlbums () {
     const sessionAlbums = JSON.parse(sessionStorage.getItem("sessionAlbums"))
     if (sessionAlbums) {
@@ -29,6 +31,7 @@ async function renderAlbums () {
         sessionAlbums.forEach(album => {
             console.log(album);
             appendAlbums(album)
+            renderPictures(Albums)
         });
     }
     else {
@@ -48,11 +51,17 @@ async function renderAlbums () {
                 albums.forEach(album => {
                     console.log(album);
                     appendAlbums(album)
+                    renderPictures(Albums)
 
                 });
             });
     }
 }
+
+
+
+
+//---------------------------------------------------------------------------------
 function appendAlbums(album){
     const albumDiv = document.createElement('div');
     albumDiv.setAttribute('class','album-object')
@@ -64,6 +73,7 @@ function appendAlbums(album){
     albumBtn.textContent = 'Change Name'
     albumDiv.appendChild(albumBtn)
     Albums.appendChild(albumDiv);
+
 
 }
 
