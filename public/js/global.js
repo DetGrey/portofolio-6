@@ -81,7 +81,7 @@ function appendPictureModalContent (picture) {
 }
 
 const uploadPictureModal = document.querySelector('#upload-picture-modal');
-const uploadAlbumModal = document.querySelector('#upload-picture-modal');
+
 const uploadPictureBtn = document.querySelector('#upload-picture-button');
 const pictureModal = document.querySelector('#picture-modal');
 const imgDataDiv = document.querySelector('#img-data-div');
@@ -90,6 +90,7 @@ const close = document.querySelectorAll('.close');
 uploadPictureBtn.addEventListener('click', () => {
     uploadPictureModal.classList.toggle('hidden');
 });
+
 // Closes modal when clicking on the X
 close.forEach(close => {
     close.addEventListener('click', () => {
@@ -99,11 +100,10 @@ close.forEach(close => {
         else if (!uploadPictureModal.classList.contains('hidden')) {
             uploadPictureModal.classList.toggle('hidden');
         }
-        else if (!uploadAlbumModal.classList.contains('hidden')) {
-            uploadAlbumModal.classList.toggle('hidden');
-        }
     });
 });
+
+
 // Closes modal when clicking outside of it
 // window.addEventListener('click', (event) => {
 //     // if (uploadPictureModal.classList.contains('hidden') === true) {
