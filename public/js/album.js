@@ -21,7 +21,7 @@ async function loadPage () {
         });
 }
 loadPage();
-const Albums = document.querySelector('#albums');
+const albums = document.querySelector('#albums');
 async function renderAlbums () {
     const sessionAlbums = JSON.parse(sessionStorage.getItem("sessionAlbums"))
     if (sessionAlbums) {
@@ -63,7 +63,7 @@ function appendAlbums(album){
     albumBtn.setAttribute('class','changBtn')
     albumBtn.textContent = 'Change Name'
     albumDiv.appendChild(albumBtn)
-    Albums.appendChild(albumDiv);
+    albums.appendChild(albumDiv);
 
 }
 

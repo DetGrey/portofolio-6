@@ -89,6 +89,7 @@ async function loadPage () {
             }
             else {
                 renderPictures(recentPictures);
+                renderAlbums();
             }
         });
 }
