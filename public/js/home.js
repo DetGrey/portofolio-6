@@ -134,7 +134,7 @@ const uploadBtn = document.querySelector('#upload-button');
 uploadBtn.addEventListener('click', uploadPicture);
 async function uploadPicture () {
     const formData = new FormData()
-    formData.append('file', pictureFile.files[0])
+    formData.append('blob', pictureFile.files[0])
     console.log(pictureFile)
     console.log(pictureFile.files[0])
     console.log(formData)

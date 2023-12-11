@@ -93,7 +93,8 @@ async function monitorAuthState() {
 const db = getFirestore(firebaseApp);
 
 const storage = getStorage(firebaseApp);
-const storageRef = ref(storage, 'pictures');
+
+
 
 const picturesRef = collection(db, 'pictures');
 const albumsRef = collection(db, 'albums');
@@ -158,8 +159,17 @@ async function retrieveAlbums(userID){
     return albums;
 }
 
-async function uploadPictureToDB(fileItem, fileName) {
-    const uploadTask = uploadBytesResumable(storageRef, fileItem);
+
+async function uploadPictureToDB(file) {
+    console.log(file)
+
+    const date = new Date().toISOString().slice(0, 19).replace('T', '-').replaceAll(':', '');
+    const storageRef = ref(storage, 'pictures/' + date + "-" + file.originalname);
+    const metadata = {
+        contentType: "image/png"
+    };
+
+    const uploadTask = uploadBytesResumable(storageRef, file.buffer, metadata);
 
     uploadTask.on('state_changed',
         (snapshot) => {

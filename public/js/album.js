@@ -25,12 +25,20 @@ const recentAlbums = document.querySelector('#recent-album');
 async function renderAlbums () {
     const sessionAlbums = JSON.parse(sessionStorage.getItem("sessionAlbums"))
     if (sessionAlbums) {
-        console.log('Returning cached albums')
+        console.log('Returning cached albums');
         sessionAlbums.forEach(album => {
             console.log(album);
-            const img = document.createElement('img');
-            img.src = album.img_path;
-            recentAlbums.appendChild(img);
+
+            // Create a div element to hold album information
+            const albumDiv = document.createElement('div');
+
+            // Create a paragraph element for the album name
+            const albumName = document.createElement('p');
+            albumName.textContent = album.album_name; // Assuming your album object has a 'name' property
+            albumDiv.appendChild(albumName);
+
+            // Append the album div to the #recent-album element
+            recentAlbums.appendChild(albumDiv);
         });
     }
     else {
@@ -46,10 +54,11 @@ async function renderAlbums () {
             })
             .then((albums) => {
                 sessionStorage.setItem("sessionAlbums", JSON.stringify(albums))
-                console.log(albums);
+                console.log(albums[0]);
                 albums.forEach(album => {
                     console.log(album);
                 });
             });
     }
 }
+
