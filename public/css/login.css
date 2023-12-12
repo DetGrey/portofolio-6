@@ -1,4 +1,105 @@
+/* ----------------------------------------- FONTS */
+@import url('https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kay+Pho+Du:wght@400;700&display=swap');
+
+
+/* ----------------------------------------- COLOR VARIABLES */
+:root {
+    --transparentPurple: #69236bD0;
+    --lightGreen: #769d99;
+}
+
+/* ----------------------------------------- BASICS */
+* {
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    font-family: 'Kay Pho Du', serif;
+    font-weight: 400;
+}
+
+button, select {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.hidden {
+    display: none;
+}
+
+/* ----------------------------------------- HEADINGS AND TEXT */
+h1 {
+    font-family: 'Ysabeau SC', sans-serif;
+    font-size: 4vw;
+    padding: 10px;
+}
+h2 {
+    font-size: 5vw;
+}
+
+p {
+    padding: 0 5px;
+    font-size: 20px;
+}
+/* ----------------------------------------- SECTIONS, DIV */
+body {
+    min-height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+    background-color: var(--lightGreen);
+}
+header {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    width: 100vw;
+    background-color: black;
+    color: white;
+}
+section {
+    padding: 10px;
+    margin: 20px 0;
+}
+hr {
+    display: inline-block;
+    border: 1px solid var(--lightGreen);
+    width: 0;
+    height: 15px;
+    opacity: 0.4;
+}
+/* ----------------------------------------- SCROLLBAR */
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+/* Track and corner */
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner {
+    background: #884460;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: black;
+    border-radius: 0.5vw;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #620b30;
+}
 /* ----------------------------------------- LOGIN OR SIGN UP */
+
+#login-signup {
+    display: flex;
+    flex-direction: row;
+}
 
 #login-header, #signup-header {
     height: fit-content;
@@ -14,6 +115,7 @@ form {
     width: 100%;
 }
 input {
+    flex: 1;
     width: 50%;
     height: 5vw;
     padding: 1vw;
@@ -38,14 +140,21 @@ button {
     cursor: pointer;
 }
 
+
 footer {
+    position: fixed;
     bottom: 0;
+    left: 0;
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 100%;
     background-color: black;
     color: white;
-    padding: 20px 0 20px 0;
+    padding: 20px 0;
+}
+
+#already-have-account {
+    margin: 0 0 20vh 0;
 }

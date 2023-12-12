@@ -26,6 +26,11 @@ img {
     width: 30%;
     height: auto;
     cursor: pointer;
+    /*outline: black solid 1px;*/
+}
+
+.picture {
+    outline: black solid 1px;
 }
 
 a {
@@ -44,8 +49,8 @@ a {
 /* ----------------------------------------- HEADINGS AND TEXT */
 h1 {
     font-family: 'Ysabeau SC', sans-serif;
-    font-size: 9vw;
-    padding: 10px;
+    font-size: 4vw;
+    padding: 20px;
 }
 h2 {
     font-size: 5vw;
@@ -63,17 +68,18 @@ body {
     background-color: var(--lightGreen);
 }
 header {
-    justify-content: center;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    text-align: center;
-
-    width: 100vw;
     background-color: black;
     color: white;
+    width: 100vw;
+    height: 7vh;
+    padding: 10px 10px 20px 10px;
 }
 section {
-    padding: 10px;
-    margin: 20px 0;
+    padding: 20px 25px 20px 20px;
+    /*margin: 20px 0;*/
 }
 hr {
     display: inline-block;
@@ -88,19 +94,40 @@ hr {
     flex-flow: row wrap;
     justify-content: flex-start;
     gap: 10px;
+    padding: 0 0 10vh 0;
 }
 footer {
+    position: fixed;
     bottom: 0;
+    left: 0;
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 100%;
     background-color: black;
     color: white;
-    padding: 20px 0 20px 0;
+    padding: 15px 0;
 }
 
+/* ----------------------------------------- NAV */
+nav {
+    display: flex;
+    padding: 0 20px 0 0;
+}
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+#upload-picture-button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 0 0 0 20px;
+    cursor: pointer;
+}
 
 
 /* ----- PLACEHOLDER */
@@ -177,21 +204,18 @@ footer {
     background: #620b30;
 }
 
- /*MODAL STYLING*/
-/*.upload-picture-modal {*/
-/*    position: fixed;*/
-/*    left: 0;*/
-/*    top: 0;*/
-/*    width: 100%;*/
-/*    height: 100%;*/
-/*    overflow: auto;*/
-/*    background-color: rgb(0,0,0);*/
-/*    background-color: rgba(0,0,0,0.4);*/
-/*    user-select: none;*/
-/*}*/
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    backdrop-filter: blur(3px);
+}
 
 .upload-picture-modal-content {
-    /*outline: black solid 1px;*/
     display: flex;
     z-index: 2;
     flex-direction: column;
@@ -225,9 +249,8 @@ footer {
 
 /* ----------------------------------------- PICTURE MODAL */
 #picture-modal {
-    /*outline: black solid 1px;*/
     z-index: 2;
-    position: fixed;
+    position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -236,6 +259,7 @@ footer {
     border: 1px solid #888;
     width: fit-content;
     border-radius: 10px;
+    height: fit-content;
 }
 
 #picture-modal-content {
