@@ -119,13 +119,15 @@ nav a {
     color: white;
     text-decoration: none;
     margin-right: 10px;
+    font-size: 1.3vw;
 }
 
 #upload-picture-button {
+    font-size: 1.3vw;
     background-color: black;
     color: white;
     border: none;
-    padding: 0 0 0 20px;
+    padding: 0 0 0 10px;
     cursor: pointer;
 }
 
@@ -271,7 +273,7 @@ nav a {
 /* ----------------------------------------- RESPONSIVE DESIGN */
 @media screen and (min-width: 800px) {
     h1 {
-        font-size: 7vw;
+        font-size: 6vw;
     }
     h2 {
         font-size: 3vw;
@@ -279,19 +281,26 @@ nav a {
     p {
         font-size: 22px;
     }
+    nav a {
+        font-size:2vw;
+
+    }
 }
 @media screen and (min-width: 1300px) {
     * {
         font-size: 20px;
     }
     h1 {
-        font-size: 6vw;
+        font-size: 5vw;
     }
     h2 {
         font-size: 2.5vw;
     }
     p {
         font-size: 25px;
+    }
+    nav a {
+        font-size: 1.5vw;
     }
 
 }
