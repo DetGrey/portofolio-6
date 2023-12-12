@@ -16,7 +16,6 @@
 }
 
 
-
 /* --------------------------ALBUM Modal ------------------------------------*/
 .upload-album-modal-content {
     /*outline: black solid 1px;*/
@@ -45,10 +44,10 @@
     align-self: flex-end;
 }
 
-.close:hover,
-.close:focus {
+.close:hover, .close:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
 }
+
 

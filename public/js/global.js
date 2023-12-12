@@ -46,14 +46,15 @@ async function appendCountryData () {
 
 function appendPictures (destinationDiv, pictures) {
     destinationDiv.innerHTML = '';
+    let count = 0;
+
     pictures.forEach(picture => {
-        console.log(picture);
-        const img = document.createElement('img');
-        img.src = picture.img_path;
-        img.id = picture.img_path;
-        img.classList.add('picture');
-        destinationDiv.appendChild(img);
-    });
+        if (count < 3) {
+            const img = document.createElement('img');
+            img.src = picture.img_path;
+            img.id = picture.img_path;
+            img.classList.add('picture');
+            destinationDiv.appendChild(img);
 
     const imgElements = document.querySelectorAll('.picture');
 
@@ -64,6 +65,7 @@ function appendPictures (destinationDiv, pictures) {
 
             pictureModal.classList.remove('hidden');
         });
+        count++;
     });
 }
 

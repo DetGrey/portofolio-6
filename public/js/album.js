@@ -83,27 +83,28 @@ function renderAlbumPictures () {
         const pTagAlbumsArray = Array.from(pTagAlbums);
         const pTag = pTagAlbumsArray.find(tag => tag.innerText === album.data.album_name)
 
-        const img = document.createElement('img')
-        img.src = picture.img_path
-        pTag.insertAdjacentElement('afterend',img)
+        if (pTag.parentElement.childElementCount !== 2+3) { //2 Is Default elements and 3 is max number of img from firebase
+            const img = document.createElement('img')
+            img.src = picture.img_path
+            pTag.insertAdjacentElement('afterend', img)
+        }
 
         // sessionAlbums.forEach(album => {
         //     if (picture.album_id === album.id) {
         //         pTagAlbums.forEach(tag =>{
         //             console.log(tag)
-        //             if (tag.innerText === album.data.album_name) {
-        //                 const img = document.createElement('img')
-        //                 img.src = picture.img_path
-        //                 tag.insertAdjacentElement('afterend',img)
+        //
+        //             if (tag.parentElement.childElementCount !== 2+3){ //2 Is Default elements and 3 is max number of img from firebase
+        //                 if (tag.innerText === album.data.album_name) {
+        //                     const img = document.createElement('img')
+        //                     img.src = picture.img_path
+        //                     tag.insertAdjacentElement('afterend',img)
+        //             }
         //             }
         //         })
         //     }
         // })
     })
-
-    // use if else to check all the different album ids
-    // if the pic has the album id, find the right p element with the album name that is connected to the album id
-    // add img element after the p element
 }
 
 
