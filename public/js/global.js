@@ -55,6 +55,8 @@ function appendPictures (destinationDiv, pictures) {
             img.id = picture.img_path;
             img.classList.add('picture');
             destinationDiv.appendChild(img);
+        }
+    })
 
     const imgElements = document.querySelectorAll('.picture');
 
@@ -256,5 +258,5 @@ function filterPictures (pictures, filters) {
             }
         }
         return true;
-    });
+    })
 }
