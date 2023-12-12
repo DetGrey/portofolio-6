@@ -23,7 +23,7 @@ button, select {
 
 img {
     border-radius: 3px;
-    width: 32.7%;
+    width: 32.5%;
     height: auto;
     cursor: pointer;
 }
@@ -41,9 +41,13 @@ a {
     display: none;
 }
 #map {
-    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 400px;
     z-index: 1;
     outline: black solid 1px;
+    width: 500px;
+
 }
 
 /* ----------------------------------------- HEADINGS AND TEXT */
@@ -51,6 +55,7 @@ h1 {
     font-family: 'Ysabeau SC', sans-serif;
     font-size: 4vw;
     padding: 20px;
+    align-self: center;
 }
 h2 {
     font-size: 5vw;
@@ -76,6 +81,7 @@ header {
     width: 100vw;
     height: 9vh;
     padding: 10px;
+    text-align: center;
 }
 section {
     padding: 20px 25px 20px 20px;
@@ -198,7 +204,7 @@ nav a {
 /* Handle */
 ::-webkit-scrollbar-thumb {
     background: black;
-    border-radius: 0.5vw;
+    /*border-radius: 0.5vw;*/
 }
 
 /* Handle on hover */
@@ -230,7 +236,7 @@ nav a {
     border: 1px solid #888;
     width: 50%;
     border-radius: 10px;
-    font-size: 1.3rem;
+    height: fit-content;
 }
 
 .close {
@@ -283,7 +289,9 @@ nav a {
     }
     nav a {
         font-size:2vw;
-
+    }
+    map {
+        width: 80%;
     }
 }
 @media screen and (min-width: 1300px) {
@@ -302,5 +310,4 @@ nav a {
     nav a {
         font-size: 1.5vw;
     }
-
 }
