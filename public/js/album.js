@@ -28,7 +28,7 @@ async function renderAlbums () {
         console.log('Returning cached albums');
         sessionAlbums.forEach(album => {
             console.log(album);
-            appendAlbums(album)
+            appendAlbums(album.data)
         });
     }
     else {
@@ -47,13 +47,13 @@ async function renderAlbums () {
                 console.log(albums);
                 albums.forEach(album => {
                     console.log(album);
-                    appendAlbums(album)
-
+                    appendAlbums(album.data)
                 });
             });
     }
 }
 function appendAlbums(album){
+    console.log(album)
     const albumDiv = document.createElement('div');
     albumDiv.setAttribute('class','album-object')
     const albumName = document.createElement('p');

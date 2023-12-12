@@ -96,4 +96,7 @@ async function loadPage () {
 loadPage();
 
 const recentPictures = document.querySelector('#recent-pictures');
-
+uploadPictureBtn.addEventListener('click', () => {
+    uploadPictureModal.classList.toggle('hidden');
+});
+uploadBtn.addEventListener('click', uploadPicture);
