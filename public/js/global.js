@@ -44,27 +44,24 @@ async function renderPictures (destinationDiv) {
     }
 }
 
-function appendPictures (destinationDiv, pictures) {
+function appendPictures(destinationDiv, pictures) {
+    let count = 0;
+
     pictures.forEach(picture => {
-        console.log(picture);
-        const img = document.createElement('img');
-        img.src = picture.img_path;
-        img.id = picture.img_path;
-        img.classList.add('picture');
-        destinationDiv.appendChild(img);
-    });
+        if (count < 3) {
+            const img = document.createElement('img');
+            img.src = picture.img_path;
+            img.id = picture.img_path;
+            img.classList.add('picture');
+            destinationDiv.appendChild(img);
 
-    const imgElements = document.querySelectorAll('.picture');
-
-    imgElements.forEach(img => {
-        img.addEventListener('click', () => {
-            pictures.forEach(picture => {
-                if (img.id === picture.img_path) {
-                    appendPictureModalContent(picture);
-                    pictureModal.classList.remove('hidden');
-                }
+            img.addEventListener('click', () => {
+                appendPictureModalContent(picture);
+                pictureModal.classList.remove('hidden');
             });
-        });
+
+            count++;
+        }
     });
 }
 
