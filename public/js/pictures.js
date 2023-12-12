@@ -1,3 +1,8 @@
+const favorites = document.querySelector('#favorite')
+const location = document.querySelector('#location')
+const year = document.querySelector('#year')
+const tag = document.querySelector('#tag')
+const id = document.querySelector('#id')
 async function loadPage () {
     await fetch('/home', {
         method: 'GET',
