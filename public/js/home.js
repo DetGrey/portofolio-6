@@ -46,7 +46,15 @@ async function renderGeoJSON (countryData) {
 function onEachFeature(feature, layer) {
     layer.bindPopup(feature.properties.name);
     // NO POPUP/TOOLTIP IS ADDED FOR COUNTRIES WITH NO SALES
+    const countryData = JSON.parse(sessionStorage.getItem("sessionCountryData"));
 
+    for (let country of countryData) {
+        // IF THE GEOJSON COUNTRY EXISTS IN THE COUNTRY DATA
+        if (country.name === feature.properties.name) {
+            // THEN ADD A POPUP/TOOLTIP WITH THE COUNTRY NAME AND TOTAL SALES AMOUNT FOR THE COUNTRY
+            layer.bindPopup(feature.properties.name + ': ' + country.count + ' pictures');
+        }
+    }
     // SHOW THE POPUP/TOOLTIP ON MOUSEOVER
     layer.on({
         click: function() {
@@ -89,12 +97,13 @@ async function loadPage () {
             }
             else {
                 renderPictures(recentPictures);
+                appendCountryData();
                 renderAlbums();
             }
         });
 }
 loadPage();
-
+let filters = {};
 const recentPictures = document.querySelector('#recent-pictures');
 uploadPictureBtn.addEventListener('click', () => {
     uploadPictureModal.classList.toggle('hidden');

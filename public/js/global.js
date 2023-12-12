@@ -1,4 +1,4 @@
-const albumNames = [];
+
 
 // -------------------------------------------- LOGOUT
 const logout = async () => {
@@ -21,17 +21,10 @@ logoutBtn.addEventListener('click', logout);
 // -------------------------------------------- RENDER PICTURES
 async function renderPictures (destinationDiv) {
     const sessionPictures = JSON.parse(sessionStorage.getItem("sessionPictures"));
-    const sessionCountryData = JSON.parse(sessionStorage.getItem("sessionCountryData"));
     if (sessionPictures) {
         console.log('Returning cached pictures');
-        await appendPictures(destinationDiv, sessionPictures);
+        appendPictures(destinationDiv, filterPictures(sessionPictures, filters));
     }
-    if (sessionCountryData) {
-        console.log('Returning cached country data');
-        console.log(sessionCountryData)
-        await renderGeoJSON(sessionCountryData);
-    }
-
     else {
         await fetch('/pictures', {method: 'GET'})
             .then(response => response.json())
@@ -39,12 +32,20 @@ async function renderPictures (destinationDiv) {
                 sessionStorage.setItem("sessionPictures", JSON.stringify(data.pictures))
                 sessionStorage.setItem("sessionCountryData", JSON.stringify(data.countryData))
                 appendPictures(destinationDiv, data.pictures);
-                renderGeoJSON(data.countryData);
             });
     }
 }
 
+// -------------------------------------------- APPEND COUNTRY DATA
+async function appendCountryData () {
+    const sessionCountryData = JSON.parse(sessionStorage.getItem("sessionCountryData"));
+    console.log('Returning cached country data');
+    console.log(sessionCountryData)
+    await renderGeoJSON(sessionCountryData);
+}
+
 function appendPictures (destinationDiv, pictures) {
+    destinationDiv.innerHTML = '';
     pictures.forEach(picture => {
         console.log(picture);
         const img = document.createElement('img');
@@ -58,22 +59,23 @@ function appendPictures (destinationDiv, pictures) {
 
     imgElements.forEach(img => {
         img.addEventListener('click', () => {
-            pictures.forEach(picture => {
-                if (img.id === picture.img_path) {
-                    appendPictureModalContent(picture);
-                    pictureModal.classList.remove('hidden');
-                }
-            });
+            const picture = pictures.find(picture => picture.img_path === img.id);
+            appendPictureModalContent(picture);
+
+            pictureModal.classList.remove('hidden');
         });
     });
 }
 
 function appendPictureModalContent (picture) {
+    const dateCreated = new Date(picture.date_created);
+    const albumName = JSON.parse(sessionStorage.getItem("sessionAlbums")).find(album => album.id === picture.album_id).data.album_name;
+
     imgDataDiv.innerHTML = (
         '<h2> ' + picture.img_name + '</h2>'
         + '<img alt="' + picture.alt_text + '" src="' + picture.img_path + '">'
-        + '<p>Date created: ' + picture.date_created + '</p>'
-        + '<p>Album: ' + picture.album_id + '</p>'
+        + '<p>Date created: ' + dateCreated + '</p>'
+        + '<p>Album: ' + albumName + '</p>'
         + '<p>City: ' + picture.city + '</p>'
         + '<p>Country: ' + picture.country + '</p>'
         + '<p>Favorite: ' + picture.favorite + '</p>'
@@ -100,19 +102,6 @@ close.forEach(close => {
         }
     });
 });
-
-
-// Closes modal when clicking outside of it
-// window.addEventListener('click', (event) => {
-//     // if (uploadPictureModal.classList.contains('hidden') === true) {
-//     //     // uploadPictureModal.classList.add('hidden');
-//     //     console.log(uploadPictureModal.classList.contains('hidden'))
-//     // }
-//     // else if (event.target !== pictureModal && pictureModal.classList.contains('hidden') === false) {
-//     //     pictureModal.classList.toggle('hidden');
-//     //     console.log('closed')
-//     // }
-// });
 
 // -------------------------------------------- UPLOAD PICTURE
 const pictureFile = document.querySelector('#picture-file');
@@ -145,7 +134,7 @@ async function uploadPictureToDB(url) {
     if (form.get('favorite') === 'on') {
         favorite = true;
     }
-    const tags = form.get('picture-tags').replaceAll(' ', '').split(',');
+    const tags = form.get('picture-tags').split(' ');
 
     const pictureData = {
         img_name: form.get('picture-name'),
@@ -174,7 +163,7 @@ async function uploadPictureToDB(url) {
             if (data === true) {
                 alert('Picture uploaded');
                 sessionStorage.removeItem("sessionPictures");
-                location.reload();
+                location.href = `/index.html`;
             }
             else {
                 alert('Something went wrong, please try again');
@@ -187,10 +176,6 @@ async function renderAlbums() {
     if (sessionAlbums) {
         console.log('Returning cached albums');
         sessionAlbums.forEach(album => {
-            albumNames.push({
-                name: album.data.album_name,
-                id: album.id
-            });
             selectAlbum.innerHTML += '<option value="' + album.id + '">' + album.data.album_name + '</option>';
         })
     }
@@ -208,10 +193,6 @@ async function renderAlbums() {
             .then((albums) => {
                 sessionStorage.setItem("sessionAlbums", JSON.stringify(albums))
                 albums.forEach(album => {
-                    albumNames.push({
-                        name: album.data.album_name,
-                        id: album.id
-                    });
                     selectAlbum.innerHTML += '<option value="' + album.id + '">' + album.data.album_name + '</option>';
                 });
             });
@@ -221,4 +202,57 @@ async function renderAlbums() {
 // https://stackoverflow.com/questions/196972/convert-string-to-title-case-with-javascript
 function toTitleCase(str) {
     return str.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
+}
+
+function filterPictures (pictures, filters) {
+    console.log(filters);
+    return pictures.filter(picture => {
+        for (const key in filters) {
+            if (key === 'filter-tag') {
+                if (!picture.tags.includes(filters[key])) {
+                    return false;
+                }
+            }
+            if (key === 'filter-country') {
+                if (filters[key] === 'all') {
+                    break;
+                }
+                if (picture.country !== filters[key]) {
+                    return false;
+                }
+            }
+            if (key === 'filter-city') {
+                if (filters[key] === 'all') {
+                    break;
+                }
+                if (picture.city !== filters[key]) {
+                    return false;
+                }
+            }
+            if (key === 'filter-yyyy') {
+                const year = new Date(picture.date_created).getFullYear();
+                if (year !== parseInt(filters[key])) {
+                    return false;
+                }
+            }
+            if (key === 'filter-mm') {
+                const month = new Date(picture.date_created).getMonth();
+                if (month !== parseInt(filters[key])) {
+                    return false;
+                }
+            }
+            if (key === 'filter-dd') {
+                const day = new Date(picture.date_created).getDate();
+                if (day !== parseInt(filters[key])) {
+                    return false;
+                }
+            }
+            if (key === 'filter-favorite') {
+                if (picture.favorite !== filters[key]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    });
 }

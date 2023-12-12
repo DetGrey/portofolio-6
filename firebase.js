@@ -1,7 +1,7 @@
 // ------------------------------------------------------ INITIALIZE FIREBASE
 const { initializeApp } = require("firebase/app");
 const { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged} = require("firebase/auth");
-const { getFirestore, collection, query , where, getDocs,setDoc,doc } = require('firebase/firestore');
+const { getFirestore, Timestamp, collection, query , where, getDocs,setDoc,doc } = require('firebase/firestore');
 const { getStorage, ref, getDownloadURL, uploadBytesResumable} = require("firebase/storage");
 
 // Your web app's Firebase configuration
@@ -86,7 +86,6 @@ const db = getFirestore(firebaseApp);
 const storage = getStorage(firebaseApp);
 
 
-
 const picturesRef = collection(db, 'pictures');
 const albumsRef = collection(db, 'albums');
 const usersRef = collection(db, 'users');
@@ -111,7 +110,9 @@ async function retrievePictures(userUID) {
     const q = query(picturesRef, where('user_id', '==', userUID));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach(doc => {
-        pictures.push(doc.data());
+        let pic = doc.data();
+        pic.date_created = new Date(doc.data().date_created.seconds * 1000 + doc.data().date_created.nanoseconds / 1000000);;
+        pictures.push(pic);
     });
 
     return pictures;
@@ -198,7 +199,7 @@ async function uploadPictureToDB(data, userUID) {
     return setDoc(doc(picturesRef), {
         img_name: data.img_name,
         img_path: data.img_path,
-        date_created: data.date_created,
+        date_created: Timestamp.fromDate(new Date(data.date_created)),
         album_id: data.album_id,
         city: data.city,
         country: data.country,

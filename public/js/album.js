@@ -79,18 +79,26 @@ function renderAlbumPictures () {
     // for each pic check if the album id fits
     sessionPictures.forEach(picture => {
         console.log(picture.album_id)
-        sessionAlbums.forEach(album => {
-            if (picture.album_id === album.id) {
-                pTagAlbums.forEach(tag =>{
-                    console.log(tag)
-                    if (tag.innerText === album.data.album_name) {
-                        const img = document.createElement('img')
-                        img.src = picture.img_path
-                        tag.insertAdjacentElement('afterend',img)
-                    }
-                })
-            }
-        })
+        const album = sessionAlbums.find(album => album.id === picture.album_id)
+        const pTagAlbumsArray = Array.from(pTagAlbums);
+        const pTag = pTagAlbumsArray.find(tag => tag.innerText === album.data.album_name)
+
+        const img = document.createElement('img')
+        img.src = picture.img_path
+        pTag.insertAdjacentElement('afterend',img)
+
+        // sessionAlbums.forEach(album => {
+        //     if (picture.album_id === album.id) {
+        //         pTagAlbums.forEach(tag =>{
+        //             console.log(tag)
+        //             if (tag.innerText === album.data.album_name) {
+        //                 const img = document.createElement('img')
+        //                 img.src = picture.img_path
+        //                 tag.insertAdjacentElement('afterend',img)
+        //             }
+        //         })
+        //     }
+        // })
     })
 
     // use if else to check all the different album ids
