@@ -83,19 +83,18 @@ function renderAlbumPictures () {
             if (picture.album_id === album.id) {
                 pTagAlbums.forEach(tag =>{
                     console.log(tag)
-                    if (tag.innerText === album.data.album_name) {
-                        const img = document.createElement('img')
-                        img.src = picture.img_path
-                        tag.insertAdjacentElement('afterend',img)
+
+                    if (tag.parentElement.childElementCount !== 2+5){ //2 Is Default elements and 5 is max number of img from firebase
+                        if (tag.innerText === album.data.album_name) {
+                            const img = document.createElement('img')
+                            img.src = picture.img_path
+                            tag.insertAdjacentElement('afterend',img)
+                    }
                     }
                 })
             }
         })
     })
-
-    // use if else to check all the different album ids
-    // if the pic has the album id, find the right p element with the album name that is connected to the album id
-    // add img element after the p element
 }
 
 
