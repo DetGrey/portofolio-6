@@ -59,8 +59,6 @@ const signupPasswordCheck = document.querySelector("#signup-password-check");
 
 const signupBtn = document.querySelector("#signup-button");
 
-
-
 const createAccount = async () => {
     console.log('create was clicked')
 
@@ -68,7 +66,6 @@ const createAccount = async () => {
         alert('Passwords do not match');
         return;
     }
-
 
     await fetch('/register', {
         method: 'POST',

@@ -85,22 +85,32 @@ function renderAlbumPictures () {
     // for each pic check if the album id fits
     sessionPictures.forEach(picture => {
         console.log(picture.album_id)
-        sessionAlbums.forEach(album => {
-            if (picture.album_id === album.id) {
-                pTagAlbums.forEach(tag =>{
-                    console.log(tag)
+        const album = sessionAlbums.find(album => album.id === picture.album_id)
+        const pTagAlbumsArray = Array.from(pTagAlbums);
+        const pTag = pTagAlbumsArray.find(tag => tag.innerText === album.data.album_name)
 
-                    if (tag.parentElement.childElementCount !== 2+3){ //2 Is Default elements and 3 is max number of img from firebase
-                        if (tag.innerText === album.data.album_name) {
-                            const img = document.createElement('img')
-                            img.src = picture.img_path
-                            img.classList.add('picture');
-                            tag.insertAdjacentElement('afterend',img)
-                        }
-                    }
-                })
-            }
-        })
+        if (pTag.parentElement.childElementCount !== 2+3) { //2 Is Default elements and 3 is max number of img from firebase
+            const img = document.createElement('img')
+            img.src = picture.img_path
+            img.classList.add('picture');
+            pTag.insertAdjacentElement('afterend', img)
+        }
+
+        // sessionAlbums.forEach(album => {
+        //     if (picture.album_id === album.id) {
+        //         pTagAlbums.forEach(tag =>{
+        //             console.log(tag)
+        //
+        //             if (tag.parentElement.childElementCount !== 2+3){ //2 Is Default elements and 3 is max number of img from firebase
+        //                 if (tag.innerText === album.data.album_name) {
+        //                     const img = document.createElement('img')
+        //                     img.src = picture.img_path
+        //                     tag.insertAdjacentElement('afterend',img)
+        //             }
+        //             }
+        //         })
+        //     }
+        // })
     })
 }
 
@@ -119,5 +129,4 @@ close.forEach(close => {
         }
     });
 });
-
 

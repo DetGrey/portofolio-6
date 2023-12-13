@@ -19,6 +19,10 @@ const { monitorAuthState, retrievePictures, uploadPictureToDB, retrieveAlbums, r
 app.use(express.static(__dirname + '/public'));
 app.use(express.json());
 
+app.listen(PORT, function () {
+    console.log(`Demo project at: ${PORT}!`);
+});
+
 app.get('/home', async (req, res) => {
     const loginResponse = await monitorAuthState();
     console.log('login ' + loginResponse)
@@ -50,11 +54,6 @@ app.get('/albums', async (req, res) => {
         console.error('Error retrieving albums:', error);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
-});
-
-
-app.listen(PORT, function () {
-    console.log(`Demo project at: ${PORT}!`);
 });
 
 app.post('/login',async (req, res) => {
