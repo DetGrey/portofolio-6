@@ -89,7 +89,7 @@ function appendPictureModalContent (picture) {
         + '<p>City: ' + picture.city + '</p>'
         + '<p>Country: ' + picture.country + '</p>'
         + '<p>Favorite: ' + picture.favorite + '</p>'
-        + '<p>Tags: ' + picture.tags.toString() + '</p>'
+        + '<p>Tags: ' + picture.tags.join(" ") + '</p>'
         + '<p>Alternative text: ' + picture.alt_text + '</p>'
     );
 }
@@ -155,7 +155,7 @@ async function uploadPictureToDB(url) {
     if (form.get('favorite') === 'on') {
         favorite = true;
     }
-    const tags = form.get('picture-tags').split(' ');
+    const tags = form.get('picture-tags').toLowerCase().split(' ');
 
     const pictureData = {
         img_name: form.get('picture-name'),
