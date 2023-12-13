@@ -92,7 +92,7 @@ async function loadPage () {
         .then(async (data) => {
             console.log(data);
             if (data !== true) {
-                sessionStorage.clear();
+                clearSessionStorage();
                 location.href = `/login.html`;
             } else {
                 await renderPictures(recentPictures);

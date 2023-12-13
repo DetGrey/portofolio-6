@@ -180,7 +180,7 @@ async function uploadPictureToDB(url) {
             console.log(data);
             if (data === true) {
                 alert('Picture uploaded');
-                sessionStorage.clear();
+                clearSessionStorage();
                 location.href = `/index.html`;
                 loadPage();
             }
