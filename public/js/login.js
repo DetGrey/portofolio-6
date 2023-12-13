@@ -32,6 +32,15 @@ const login = async () => {
 };
 loginBtn.addEventListener("click", login);
 
+const passwordEnter = (event) => {
+    if (event.key === "Enter") {
+        login();
+    }
+};
+
+loginPassword.addEventListener("keypress", passwordEnter);
+
+
 const toggleSignUpSection = () => {
     const signUpSection = document.querySelector('#signup-section');
     const loginSection = document.querySelector('#login-section')
