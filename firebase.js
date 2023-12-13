@@ -44,6 +44,7 @@ async function createNewUser(emailValue,passwordValue,firstnameValue,lastnameVal
         .then((userCredential) => {
             const user = userCredential.user;
             createUserInDB(user.uid, firstnameValue, lastnameValue, emailValue);
+            createDefaultAlbum(user.uid);
             return true
 
         }).catch((error) => {
@@ -210,6 +211,22 @@ async function uploadPictureToDB(data, userUID) {
     })
         .then(() => {
             console.log('picture uploaded');
+            return true
+        })
+        .catch((error) => {
+            console.log(error);
+            return false
+        });
+}
+
+async function createDefaultAlbum(userUID) {
+    return setDoc(doc(albumsRef), {
+        album_name: 'Default',
+        date_created: Timestamp.fromDate(new Date()),
+        user_id: userUID
+    })
+        .then(() => {
+            console.log('album uploaded');
             return true
         })
         .catch((error) => {
