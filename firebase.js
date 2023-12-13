@@ -1,7 +1,7 @@
 // ------------------------------------------------------ INITIALIZE FIREBASE
 const { initializeApp } = require("firebase/app");
 const { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged} = require("firebase/auth");
-const { getFirestore, Timestamp, collection, query , where, getDocs,setDoc,doc } = require('firebase/firestore');
+const { getFirestore, getDoc, Timestamp, collection, query , where, getDocs,setDoc,doc } = require('firebase/firestore');
 const { getStorage, ref, getDownloadURL, uploadBytesResumable} = require("firebase/storage");
 
 // Your web app's Firebase configuration
@@ -251,4 +251,27 @@ async function uploadAlbumToDb(data, userUID) {
         });
 }
 
-module.exports = { authenticateLogin, monitorAuthState, logOut, createNewUser, retrievePictures, uploadPictureToStorage, uploadPictureToDB, retrieveCountryData, retrieveAlbums,uploadAlbumToDb }; //export the app
+async function renameAlbum(albumID, newName, uid) {
+    const albumRef = doc(db, 'albums', albumID);
+    return  getDoc(albumRef).then((doc) => {
+        if (doc.exists && doc.data().user_id === uid) {
+            return setDoc(albumRef, {album_name: newName}, {merge: true})
+                .then(() => {
+                    console.log('album renamed');
+                    return true
+                })
+                .catch((error) => {
+                    console.log(error);
+                    return false
+                });
+        } else {
+            console.log("No such album!");
+            return false;
+        }
+    }).catch((error) => {
+        console.log("Error getting album:", error);
+        return false;
+    });
+}
+
+module.exports = { authenticateLogin, monitorAuthState, logOut, createNewUser, retrievePictures, uploadPictureToStorage, uploadPictureToDB, retrieveCountryData, retrieveAlbums,uploadAlbumToDb, renameAlbum }; //export the app

@@ -1,4 +1,6 @@
-
+a {
+    cursor: pointer;
+}
 .create-album {
     display: flex;
     justify-content: center;

@@ -12,7 +12,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 const { monitorAuthState, retrievePictures, uploadPictureToDB, retrieveAlbums, retrieveCountryData,
-    authenticateLogin, createNewUser, logOut, uploadPictureToStorage, uploadAlbumToDb
+    authenticateLogin, renameAlbum, createNewUser, logOut, uploadPictureToStorage, uploadAlbumToDb
 } = require('./firebase');
 
 
@@ -109,5 +109,12 @@ app.post('/upload-album-to-db', async (req,res) => {
     const response = await uploadAlbumToDb(req.body,userUID)
 
     console.log('upload to db ' + response);
+    res.json(response);
+})
+app.post('/rename-album', async (req,res) => {
+    console.log(req.body)
+    const response = await renameAlbum(req.body.album_id, req.body.new_name, userUID)
+
+    console.log('renaming album ' + response);
     res.json(response);
 })

@@ -60,31 +60,74 @@ async function renderAlbums () {
 function appendAlbums(albums) {
     console.log(albums)
     albums.forEach(album => {
+        const hr = document.createElement('hr');
+        hr.classList.add('line-hr');
+        albumsDiv.appendChild(hr);
+        const albumHeader = document.createElement('div')
+
         const albumName = document.createElement('a');
         // albumName.setAttribute('href', `/pictures.html?album_id=${album.id}`);
         albumName.setAttribute('id', album.id);
         albumName.setAttribute('class', 'p-album-name');
         albumName.textContent = album.data.album_name;
 
-        albumsDiv.appendChild(albumName);
+        albumHeader.appendChild(albumName);
+
+        const albumBtn = document.createElement('button');
+        albumBtn.setAttribute('class', 'changeBtn');
+        albumBtn.id = 'album-btn-' + album.id;
+        albumBtn.textContent = 'Rename album';
+
+        albumHeader.appendChild(albumBtn);
+        albumsDiv.appendChild(albumHeader);
+        // albumsDiv.insertAdjacentElement('beforeend', albumBtn);
 
         console.log(album);
         const albumDiv = document.createElement('div');
         albumDiv.setAttribute('class', 'album-object');
 
         albumsDiv.appendChild(albumDiv);
-
-        const albumBtn = document.createElement('button');
-        albumBtn.setAttribute('class', 'changeBtn');
-        albumBtn.textContent = 'Change Album Name';
-
-        albumsDiv.insertAdjacentElement('beforeend', albumBtn);
     });
 
     const aTags = document.querySelectorAll('.p-album-name');
     aTags.forEach(aTag => {
         aTag.addEventListener('click', fetchFilterPictures);
     });
+
+    const renameAlbumBtns = document.querySelectorAll('button.changeBtn');
+    renameAlbumBtns.forEach(btn => {
+        btn.addEventListener('click', renameAlbum);
+    });
+}
+
+async function renameAlbum(event) {
+    const id = event.target.id.split('btn-')[1];
+    const newName = prompt('Enter new album name');
+
+    await fetch('/rename-album', {
+        method: 'POST',
+        headers : {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            album_id: id,
+            new_name: newName
+        })
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            if (data === true) {
+                alert('Album renamed');
+                clearSessionStorage();
+                location.href = `/album.html`;
+                loadPage();
+            }
+            else {
+                alert('Something went wrong, please try again');
+            }
+    })
 }
 
 function fetchFilterPictures(event) {
@@ -105,11 +148,11 @@ function renderAlbumPictures () {
         const pTagAlbumsArray = Array.from(pTagAlbums);
         const pTag = pTagAlbumsArray.find(tag => tag.innerText === album.data.album_name)
 
-        if (pTag.nextElementSibling.childElementCount !== 3) { // 3 is max number of img from firebase
+        if (pTag.parentElement.nextElementSibling.childElementCount !== 3) { // 3 is max number of img from firebase
             const img = document.createElement('img')
             img.src = picture.img_path
             img.classList.add('picture');
-            pTag.nextSibling.appendChild(img)
+            pTag.parentElement.nextSibling.appendChild(img)
         }
 
         // sessionAlbums.forEach(album => {

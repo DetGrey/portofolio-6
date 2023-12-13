@@ -129,7 +129,6 @@ window.addEventListener('click', (event) => {
     }
 });
 
-
 // -------------------------------------------- UPLOAD PICTURE
 const pictureFile = document.querySelector('#picture-file');
 
