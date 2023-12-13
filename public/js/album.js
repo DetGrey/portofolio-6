@@ -64,7 +64,8 @@ function appendAlbums(album) {
     albumName.setAttribute('class', 'p-album-name');
     albumName.textContent = album.album_name;
 
-    albumDiv.append(albumName)
+    albumDiv.append(albumName);
+
     albums.appendChild(albumDiv);
 
     const albumBtn = document.createElement('button');

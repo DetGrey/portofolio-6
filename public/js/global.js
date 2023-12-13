@@ -111,15 +111,33 @@ close.forEach(close => {
 });
 
 
-// Closes modal when clicking outside of it
-window.onclick = function(event) {
-    if (event.target === pictureModal) {
-        pictureModal.classList.toggle('hidden');
-    }
-    else if (event.target === uploadPictureModal) {
+// Closes modals when clicking outside of them
+window.addEventListener('click', (event) => {
+    if (event.target === uploadPictureModal) {
         uploadPictureModal.classList.toggle('hidden');
     }
-};
+});
+
+window.addEventListener('click', (event) => {
+    const pictureModal = document.getElementById('your-picture-modal-id');
+    const uploadPictureModal = document.getElementById('upload-album-modal');
+
+    if (event.target === pictureModal) {
+        pictureModal.classList.toggle('hidden');
+    } else if (event.target === uploadPictureModal) {
+        uploadPictureModal.classList.toggle('hidden');
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const uploadAlbumModal = document.querySelector('#upload-album-modal');
+    const closeButton = uploadAlbumModal.querySelector('.close');
+
+    closeButton.addEventListener('click', function () {
+        uploadAlbumModal.classList.toggle('hidden');
+    });
+});
+
 
 // -------------------------------------------- UPLOAD PICTURE
 const pictureFile = document.querySelector('#picture-file');
