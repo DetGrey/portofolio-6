@@ -89,7 +89,7 @@ function appendPictureModalContent (picture) {
         + '<p>City: ' + picture.city + '</p>'
         + '<p>Country: ' + picture.country + '</p>'
         + '<p>Favorite: ' + picture.favorite + '</p>'
-        + '<a>Tags: ' + picture.tags.toString() + '</a>'
+        + '<p>Tags: ' + picture.tags.toString() + '</p>'
         + '<p>Alternative text: ' + picture.alt_text + '</p>'
     );
 }
