@@ -12,7 +12,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 const { monitorAuthState, retrievePictures, uploadPictureToDB, retrieveAlbums, retrieveCountryData,
-    authenticateLogin, createNewUser, logOut, uploadPictureToStorage
+    authenticateLogin, createNewUser, logOut, uploadPictureToStorage, uploadAlbumToDb
 } = require('./firebase');
 
 
@@ -78,8 +78,19 @@ app.post('/upload', upload.single('blob'), async (req, res) => {
     const downloadURL = await uploadPictureToStorage(req.file);
     res.json(downloadURL);
 });
+
+//------------------------------------------------------------------------
+
 app.post('/upload-picture-to-db', async (req, res) => {
     const response = await uploadPictureToDB(req.body, userUID)
     console.log('upload to db ' + response);
     res.json(response);
 });
+//---------------------------------------------------------------
+app.post('/upload-album-to-db', async (req,res) => {
+    console.log(req.body)
+    const response = await uploadAlbumToDb(req.body,userUID)
+
+    console.log('upload to db ' + response);
+    res.json(response);
+})

@@ -218,4 +218,20 @@ async function uploadPictureToDB(data, userUID) {
         });
 }
 
-module.exports = { authenticateLogin, monitorAuthState, logOut, createNewUser, retrievePictures, uploadPictureToStorage, uploadPictureToDB, retrieveCountryData, retrieveAlbums }; //export the app
+async function uploadAlbumToDb(data, userUID) {
+    return setDoc(doc(albumsRef), {
+        album_name: data.album_name,
+        date_created: Timestamp.fromDate(new Date(data.date_created)),
+        user_id: userUID
+    })
+        .then(() => {
+            console.log('album uploaded');
+            return true
+        })
+        .catch((error) => {
+            console.log(error);
+            return false
+        });
+}
+
+module.exports = { authenticateLogin, monitorAuthState, logOut, createNewUser, retrievePictures, uploadPictureToStorage, uploadPictureToDB, retrieveCountryData, retrieveAlbums,uploadAlbumToDb }; //export the app
