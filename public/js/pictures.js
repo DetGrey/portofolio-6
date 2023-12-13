@@ -10,15 +10,35 @@ async function loadPage () {
             return response.json();
         })
         .then((data) => {
-            console.log(data);
             if (data !== true) {
                 clearSessionStorage();
                 location.href = `/login.html`;
             }
             else {
-                renderPictures(picturesDiv);
+                let selectedElements = {
+                    album: null,
+                    city: null,
+                    country: null
+                };
+                if (location.href.includes('city=')) {
+                    const selected = location.href.split('city=')[1].split('&')[0];
+                    filters['filter-city'] = toTitleCase(selected);
+                    selectedElements.city = toTitleCase(selected);
+                }
+                if (location.href.includes('country=')) {
+                    const selected = location.href.split('country=')[1].split('&')[0];
+                    filters['filter-country'] = toTitleCase(selected);
+                    selectedElements.country = toTitleCase(selected);
+                }
+                if (location.href.includes('album_id=')) {
+                    const selected = location.href.split('album_id=')[1].split('&')[0];
+                    filters['filter-album'] = selected;
+                    selectedElements.album = selected;
+                }
+
+                renderPictures(picturesDiv, filters);
                 renderAlbums();
-                appendFilterSelectOptions();
+                appendFilterSelectOptions(selectedElements);
             }
         });
 }
@@ -57,7 +77,8 @@ filterElements.forEach(filter => {
     });
 });
 
-function appendFilterSelectOptions() {
+function appendFilterSelectOptions(selected) {
+    console.log(selected)
     const citySelect = document.querySelector('#filter-city');
     const countrySelect = document.querySelector('#filter-country');
     const albumSelect = document.querySelector('#filter-album');
@@ -83,4 +104,14 @@ function appendFilterSelectOptions() {
             albumSelect.appendChild(albumOption);
         }
     });
+
+    if (selected.city) {
+        citySelect.querySelector(`option[value="${selected.city}"]`).selected = true;
+    }
+    if (selected.country) {
+        countrySelect.querySelector(`option[value="${selected.country}"]`).selected = true;
+    }
+    if (selected.album) {
+        albumSelect.querySelector(`option[value="${selected.album}"]`).selected = true;
+    }
 }

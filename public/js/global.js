@@ -22,7 +22,7 @@ const logoutBtn = document.querySelector('#logout');
 logoutBtn.addEventListener('click', logout);
 
 // -------------------------------------------- RENDER PICTURES
-async function renderPictures (destinationDiv) {
+async function renderPictures (destinationDiv, filters) {
     const sessionPictures = JSON.parse(sessionStorage.getItem("sessionPictures"));
     if (sessionPictures) {
         console.log('Returning cached pictures');

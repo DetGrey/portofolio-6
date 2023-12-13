@@ -11,6 +11,7 @@ L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.{ext}?ap
 // -------------------------------------------- GEOJSON FOR HEAT MAP ( LEAFLET JS )
 // GEOJSON FILE FETCHED TO CREATE AREAS FOR EACH COUNTRY
 async function renderGeoJSON (countryData) {
+    const amountOfPictures = Object.values(countryData).reduce((a, b) => a + b.count, 0);
     fetch('./js/countries.geo.json')
         .then((r) => r.json())
         .then((data) => {
@@ -24,7 +25,7 @@ async function renderGeoJSON (countryData) {
                         if (country.name === feature.properties.name) {
                             // THEN GIVE THE COUNTRY AREA A COLOR DEPENDING ON SALES AMOUNT
                             return {
-                                color: getColor(country.count),
+                                color: getColor(country.count, amountOfPictures),
                                 weight: 1,
                             };
                         }
@@ -64,16 +65,22 @@ function onEachFeature(feature, layer) {
 }
 
 // -------------------------------------------- COLOR VALUES BASED ON SALES VALUE
-function getColor(value) {
-    // IF THE BOOLEAN IS TRUE THEN RETURN COLOR CODE
-    // ELSE GO ON TO THE NEXT BOOLEAN AND DO THE SAME
-    // IF THE VALUE IS LESS THAN OR EQUAL TO 0 THEN RETURN THE GREY COLOR CODE
-    return value > 0 ? '#ff0000' :
-        value > 300  ? '#ff5c1f' :
-            value > 100   ? '#ff7c0c' :
-                value > 40   ? '#fc9c1a' :
-                    value > 0   ? '#f8b84c' :
-                        '#c4c4c4';
+function getColor(value, sum) {
+    if (value === 0) {
+        return '#c4c4c4';
+    }
+    else {
+        const percentage = value / sum;
+        console.log(percentage)
+        // IF THE BOOLEAN IS TRUE THEN RETURN COLOR CODE
+        // ELSE GO ON TO THE NEXT BOOLEAN AND DO THE SAME
+        // IF THE VALUE IS LESS THAN OR EQUAL TO 0 THEN RETURN THE GREY COLOR CODE
+        return percentage > 0.5 ? '#ff0000' :
+            percentage > 0.3  ? '#ff5c1f' :
+                percentage > 0.1   ? '#ff7c0c' :
+                    percentage > 0.05   ? '#fc9c1a' :
+                        '#f8b84c';
+    }
 }
 
 // -------------------------------------------- RETRIEVE PICTURES FROM FIREBASE
@@ -94,7 +101,7 @@ async function loadPage () {
                 clearSessionStorage();
                 location.href = `/login.html`;
             } else {
-                await renderPictures(recentPictures);
+                await renderPictures(recentPictures, filters);
                 await appendCountryData();
                 await renderAlbums();
             }

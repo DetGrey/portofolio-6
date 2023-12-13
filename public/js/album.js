@@ -30,15 +30,12 @@ async function loadPage () {
 }
 loadPage();
 
-const albums = document.querySelector('#albums');
+const albumsDiv = document.querySelector('#albums');
 async function renderAlbums () {
     const sessionAlbums = JSON.parse(sessionStorage.getItem("sessionAlbums"))
     if (sessionAlbums) {
         console.log('Returning cached albums');
-        sessionAlbums.forEach(album => {
-            console.log(album);
-            appendAlbums(album.data)
-        });
+        appendAlbums(sessionAlbums);
         renderAlbumPictures()
     }
     else {
@@ -55,34 +52,45 @@ async function renderAlbums () {
             .then((albums) => {
                 sessionStorage.setItem("sessionAlbums", JSON.stringify(albums))
                 console.log(albums);
-                albums.forEach(album => {
-                    console.log(album);
-                    appendAlbums(album.data)
-                });
-                renderAlbumPictures()
+                appendAlbums(albums);
+                renderAlbumPictures();
             });
     }
 }
-function appendAlbums(album) {
-    const albumName = document.createElement('h2');
-    albumName.setAttribute('class', 'p-album-name');
-    albumName.textContent = album.album_name;
+function appendAlbums(albums) {
+    console.log(albums)
+    albums.forEach(album => {
+        const albumName = document.createElement('a');
+        // albumName.setAttribute('href', `/pictures.html?album_id=${album.id}`);
+        albumName.setAttribute('id', album.id);
+        albumName.setAttribute('class', 'p-album-name');
+        albumName.textContent = album.data.album_name;
 
-    albums.appendChild(albumName);
+        albumsDiv.appendChild(albumName);
 
-    console.log(album);
-    const albumDiv = document.createElement('div');
-    albumDiv.setAttribute('class', 'album-object');
+        console.log(album);
+        const albumDiv = document.createElement('div');
+        albumDiv.setAttribute('class', 'album-object');
 
-    albums.appendChild(albumDiv);
+        albumsDiv.appendChild(albumDiv);
 
-    const albumBtn = document.createElement('button');
-    albumBtn.setAttribute('class', 'changeBtn');
-    albumBtn.textContent = 'Change Album Name';
+        const albumBtn = document.createElement('button');
+        albumBtn.setAttribute('class', 'changeBtn');
+        albumBtn.textContent = 'Change Album Name';
 
-    albums.insertAdjacentElement('beforeend', albumBtn);
+        albumsDiv.insertAdjacentElement('beforeend', albumBtn);
+    });
+
+    const aTags = document.querySelectorAll('.p-album-name');
+    aTags.forEach(aTag => {
+        aTag.addEventListener('click', fetchFilterPictures);
+    });
 }
 
+function fetchFilterPictures(event) {
+    console.log(event.target.id)
+    location.href = `/pictures.html?album_id=${event.target.id}`;
+}
 
 function renderAlbumPictures () {
     const sessionPictures = JSON.parse(sessionStorage.getItem("sessionPictures"))
@@ -93,11 +101,10 @@ function renderAlbumPictures () {
 
     // for each pic check if the album id fits
     sessionPictures.forEach(picture => {
-        console.log(picture.album_id)
         const album = sessionAlbums.find(album => album.id === picture.album_id)
         const pTagAlbumsArray = Array.from(pTagAlbums);
         const pTag = pTagAlbumsArray.find(tag => tag.innerText === album.data.album_name)
-        console.log(pTag.nextElementSibling.childElementCount)
+
         if (pTag.nextElementSibling.childElementCount !== 3) { // 3 is max number of img from firebase
             const img = document.createElement('img')
             img.src = picture.img_path
