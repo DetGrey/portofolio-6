@@ -89,16 +89,15 @@ async function loadPage () {
         .then((response) => {
             return response.json();
         })
-        .then((data) => {
+        .then(async (data) => {
             console.log(data);
             if (data !== true) {
                 sessionStorage.clear();
                 location.href = `/login.html`;
-            }
-            else {
-                renderPictures(recentPictures);
-                appendCountryData();
-                renderAlbums();
+            } else {
+                await renderPictures(recentPictures);
+                await appendCountryData();
+                await renderAlbums();
             }
         });
 }

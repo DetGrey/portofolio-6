@@ -1,4 +1,7 @@
-const albumNames = [];
+
+function clearSessionStorage () {
+    sessionStorage.clear();
+}
 
 // -------------------------------------------- LOGOUT
 const logout = async () => {
@@ -9,7 +12,7 @@ const logout = async () => {
         .then((data) => {
             console.log(data);
             if (data === true) {
-                sessionStorage.clear();
+                clearSessionStorage();
                 location.href = `/login.html`;
             }
         });
@@ -21,14 +24,9 @@ logoutBtn.addEventListener('click', logout);
 // -------------------------------------------- RENDER PICTURES
 async function renderPictures (destinationDiv) {
     const sessionPictures = JSON.parse(sessionStorage.getItem("sessionPictures"));
-    const sessionCountryData = JSON.parse(sessionStorage.getItem("sessionCountryData"));
     if (sessionPictures) {
         console.log('Returning cached pictures');
         appendPictures(destinationDiv, filterPictures(sessionPictures, filters));
-    }
-    if (sessionCountryData) {
-        console.log('Returning cached country data');
-        console.log(sessionCountryData)
     }
 
     else {
@@ -45,7 +43,6 @@ async function renderPictures (destinationDiv) {
 // -------------------------------------------- APPEND COUNTRY DATA
 async function appendCountryData () {
     const sessionCountryData = JSON.parse(sessionStorage.getItem("sessionCountryData"));
-    console.log('Returning cached country data');
     console.log(sessionCountryData)
     await renderGeoJSON(sessionCountryData);
 }
@@ -183,8 +180,9 @@ async function uploadPictureToDB(url) {
             console.log(data);
             if (data === true) {
                 alert('Picture uploaded');
-                sessionStorage.removeItem("sessionPictures");
+                sessionStorage.clear();
                 location.href = `/index.html`;
+                loadPage();
             }
             else {
                 alert('Something went wrong, please try again');
