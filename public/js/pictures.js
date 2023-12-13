@@ -17,15 +17,20 @@ async function loadPage () {
             }
             else {
                 renderPictures(picturesDiv);
+                renderAlbums();
                 appendFilterSelectOptions();
             }
         });
 }
 loadPage();
 const picturesDiv = document.querySelector('#pictures-div');
+uploadPictureBtn.addEventListener('click', () => {
+    uploadPictureModal.classList.toggle('hidden');
+});
+uploadBtn.addEventListener('click', uploadPicture);
+
 let filters = {
 };
-
 // -------------------------------------------- FILTER EVENT LISTENERS
 const filterElements = document.querySelectorAll('.filter');
 filterElements.forEach(filter => {

@@ -184,3 +184,12 @@ async function uploadAlbumToDb(){
 const submitAlbum = document.querySelector('#submit-album-button');
 
 submitAlbum.addEventListener('click',uploadAlbumToDb)
+
+document.addEventListener('DOMContentLoaded', function () {
+    const uploadAlbumModal = document.querySelector('#upload-album-modal');
+    const closeButton = uploadAlbumModal.querySelector('.close');
+
+    closeButton.addEventListener('click', function () {
+        uploadAlbumModal.classList.toggle('hidden');
+    });
+});

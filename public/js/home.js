@@ -77,7 +77,6 @@ function getColor(value) {
 }
 
 // -------------------------------------------- RETRIEVE PICTURES FROM FIREBASE
-
 async function loadPage () {
     await fetch('/home', {
         method: 'GET',

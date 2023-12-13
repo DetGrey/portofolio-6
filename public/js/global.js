@@ -129,15 +129,6 @@ window.addEventListener('click', (event) => {
     }
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-    const uploadAlbumModal = document.querySelector('#upload-album-modal');
-    const closeButton = uploadAlbumModal.querySelector('.close');
-
-    closeButton.addEventListener('click', function () {
-        uploadAlbumModal.classList.toggle('hidden');
-    });
-});
-
 
 // -------------------------------------------- UPLOAD PICTURE
 const pictureFile = document.querySelector('#picture-file');
@@ -199,7 +190,7 @@ async function uploadPictureToDB(url) {
             if (data === true) {
                 alert('Picture uploaded');
                 clearSessionStorage();
-                location.href = `/index.html`;
+                location.reload();
                 loadPage();
             }
             else {
@@ -215,6 +206,7 @@ async function renderAlbums() {
         sessionAlbums.forEach(album => {
             selectAlbum.innerHTML += '<option value="' + album.id + '">' + album.data.album_name + '</option>';
         })
+        Array.from(selectAlbum.querySelectorAll('option')).find(option => option.innerText === 'Default').selected = true;
     }
     else {
         await fetch('/albums', {
