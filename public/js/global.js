@@ -29,7 +29,6 @@ async function renderPictures (destinationDiv) {
     if (sessionCountryData) {
         console.log('Returning cached country data');
         console.log(sessionCountryData)
-        await renderGeoJSON(sessionCountryData);
     }
 
     else {
@@ -39,7 +38,6 @@ async function renderPictures (destinationDiv) {
                 sessionStorage.setItem("sessionPictures", JSON.stringify(data.pictures))
                 sessionStorage.setItem("sessionCountryData", JSON.stringify(data.countryData))
                 appendPictures(destinationDiv, data.pictures);
-                renderGeoJSON(data.countryData);
             });
     }
 }
