@@ -1,7 +1,10 @@
 console.log('Client-side code running');
 // -------------------------------------------- HEAT MAP ( LEAFLET JS )
 // SET VIEW AND ZOOM ON MAP
-let map = L.map('map').setView([0,0], 1);
+let map = L.map('map', {
+    minZoom: 1,
+}
+).setView([0,0], 1);
 
 // ADD TILE LAYER AKA MAP TYPE TO MAP
 // NOWRAP: TRUE IS SET SO THAT THE MAP WON'T DUPLICATE WHEN USER MOVES THE MAP
@@ -42,6 +45,8 @@ async function renderGeoJSON (countryData) {
             }).addTo(map);
         });
 }
+// Setting the bounds of the map as the start position
+map.setMaxBounds(map.getBounds());
 
 // -------------------------------------------- ON EACH FEATURE FUNCTION
 function onEachFeature(feature, layer) {

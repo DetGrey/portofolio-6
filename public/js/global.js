@@ -106,6 +106,8 @@ close.forEach(close => {
         }
         else if (!uploadPictureModal.classList.contains('hidden')) {
             uploadPictureModal.classList.toggle('hidden');
+        } else if (!uploadAlbumModal.classList.contains('hidden')) {
+            uploadAlbumModal.classList.toggle('hidden');
         }
     });
 });
@@ -115,19 +117,12 @@ close.forEach(close => {
 window.addEventListener('click', (event) => {
     if (event.target === uploadPictureModal) {
         uploadPictureModal.classList.toggle('hidden');
+    } else if (event.target === uploadAlbumModal) {
+        uploadAlbumModal.classList.toggle('hidden');
     }
 });
 
-window.addEventListener('click', (event) => {
-    const pictureModal = document.getElementById('your-picture-modal-id');
-    const uploadPictureModal = document.getElementById('upload-album-modal');
 
-    if (event.target === pictureModal) {
-        pictureModal.classList.toggle('hidden');
-    } else if (event.target === uploadPictureModal) {
-        uploadPictureModal.classList.toggle('hidden');
-    }
-});
 
 // -------------------------------------------- UPLOAD PICTURE
 const pictureFile = document.querySelector('#picture-file');

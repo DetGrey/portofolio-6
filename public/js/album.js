@@ -181,13 +181,6 @@ uploadAlbumBtn.addEventListener('click', () => {
     uploadAlbumModal.classList.toggle('hidden');
 });
 
-close.forEach(close => {
-    close.addEventListener('click', () => {
-        if (!uploadAlbumModal.classList.contains('hidden')) {
-            uploadAlbumModal.classList.toggle('hidden');
-        }
-    });
-});
 
 const albumName = document.querySelector('#album-name')
 
