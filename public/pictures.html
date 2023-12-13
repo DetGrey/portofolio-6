@@ -30,10 +30,10 @@
 </header>
 <section class="options">
     <div>
-        <span>Favorites</span>
-        <label class="switch">
-            <input type="checkbox" id="filter-favorite" class="filter">
-            <span class="slider round"></span>
+        <label for="filter-album">
+            <select name="filter-album" id="filter-album" class="filter">
+                <option value="all">All albums</option>
+            </select>
         </label>
     </div>
     <div>
@@ -45,12 +45,6 @@
         <input type="number" id="filter-yyyy" class="filter" name="year" min="1900" max="9999" placeholder="yyyy"/>
     </div>
     <div>
-        <span >Tags</span>
-        <label for="filter-tag">
-            <input type="text" id="filter-tag" class="filter" placeholder="tag1 tag2...">
-        </label>
-    </div>
-    <div>
         <label for="filter-city">
             <select name="filter-city" id="filter-city" class="filter">
                 <option value="all">All cities</option>
@@ -60,6 +54,19 @@
             <select name="filter-country" id="filter-country" class="filter">
                 <option value="all">All countries</option>
             </select>
+        </label>
+    </div>
+    <div>
+        <span >Tags</span>
+        <label for="filter-tag">
+            <input type="text" id="filter-tag" class="filter" placeholder="tag1 tag2...">
+        </label>
+    </div>
+    <div>
+        <span>Favorites</span>
+        <label class="switch">
+            <input type="checkbox" id="filter-favorite" class="filter">
+            <span class="slider round"></span>
         </label>
     </div>
 </section>

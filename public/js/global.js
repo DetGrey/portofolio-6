@@ -250,6 +250,11 @@ function filterPictures (pictures, filters) {
                     return false;
                 }
             }
+            if (key === 'filter-album') {
+                if (picture.album_id !== filters[key] && filters[key] !== 'all') {
+                    return false;
+                }
+            }
             if (key === 'filter-country') {
                 if (picture.country !== filters[key] && filters[key] !== 'all') {
                     return false;
