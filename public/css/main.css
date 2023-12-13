@@ -118,6 +118,7 @@ footer {
     background-color: black;
     color: white;
     padding: 15px 0;
+    z-index: 0;
 }
 
 /* ----------------------------------------- NAV */

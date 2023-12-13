@@ -2,25 +2,34 @@ async function loadPage () {
     await fetch('/home', {
         method: 'GET',
         headers: {
-            'Content-Type':'application/json',
-            'Accept':'application/json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
         },
     })
         .then((response) => {
             return response.json();
         })
-        .then((data) => {
+        .then(async (data) => {
             console.log(data);
             if (data !== true) {
                 clearSessionStorage();
                 location.href = `/login.html`;
+            } else {
+                const sessionPictures = JSON.parse(sessionStorage.getItem("sessionPictures"));
+                if (!sessionPictures) {
+                    await fetch('/pictures', {method: 'GET'})
+                        .then(response => response.json())
+                        .then((data) => {
+                            sessionStorage.setItem("sessionPictures", JSON.stringify(data.pictures))
+                            sessionStorage.setItem("sessionCountryData", JSON.stringify(data.countryData))
+                        });
+                }
+                await renderAlbums();
             }
-            else {
-                renderAlbums();
-            }
-        });
+        })
 }
 loadPage();
+const createAlbum = document.querySelector('#create-album')
 const albums = document.querySelector('#albums');
 async function renderAlbums () {
     const sessionAlbums = JSON.parse(sessionStorage.getItem("sessionAlbums"))
@@ -64,7 +73,8 @@ function appendAlbums(album) {
     albumName.setAttribute('class', 'p-album-name');
     albumName.textContent = album.album_name;
 
-    albumDiv.append(albumName)
+    albumDiv.append(albumName);
+
     albums.appendChild(albumDiv);
 
     const albumBtn = document.createElement('button');
@@ -130,3 +140,48 @@ close.forEach(close => {
     });
 });
 
+const albumName = document.querySelector('#album-name')
+
+async function uploadAlbumToDb(){
+    const sessionAlbums = JSON.parse(sessionStorage.getItem("sessionAlbums"));
+    const error = await sessionAlbums.find(album => album.data.album_name.toLowerCase() === albumName.value.toLowerCase());
+    if (error) {
+        alert('Album already Exists')
+    }
+    else {
+
+        const date = new Date();
+
+        const albumData = {
+            album_name: albumName.value,
+            date_created: date,
+        }
+        console.log(albumData)
+        await fetch('/upload-album-to-db', {
+            method: 'POST',
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(albumData)
+        })
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                console.log(data);
+                if (data === true) {
+                    alert('Album uploaded');
+                    clearSessionStorage();
+                    location.href = `/album.html`;
+                    loadPage();
+                }
+                else {
+                    alert('Something went wrong, please try again');
+                }
+            });
+    }
+}
+
+const submitAlbum = document.querySelector('#submit-album-button');
+
+submitAlbum.addEventListener('click',uploadAlbumToDb)
