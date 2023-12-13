@@ -233,18 +233,12 @@ function filterPictures (pictures, filters) {
                 }
             }
             if (key === 'filter-country') {
-                if (filters[key] === 'all') {
-                    break;
-                }
-                if (picture.country !== filters[key]) {
+                if (picture.country !== filters[key] && filters[key] !== 'all') {
                     return false;
                 }
             }
             if (key === 'filter-city') {
-                if (filters[key] === 'all') {
-                    break;
-                }
-                if (picture.city !== filters[key]) {
+                if (picture.city !== filters[key] && filters[key] !== 'all') {
                     return false;
                 }
             }

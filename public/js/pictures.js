@@ -29,11 +29,10 @@ let filters = {
 // -------------------------------------------- FILTER EVENT LISTENERS
 const filterElements = document.querySelectorAll('.filter');
 filterElements.forEach(filter => {
-    filter.addEventListener('change', (event) => {
+    filter.addEventListener('change', () => {
         const sessionPictures = JSON.parse(sessionStorage.getItem("sessionPictures"));
         if (filter.value === '') {
             delete filters[filter.id];
-            appendPictures(picturesDiv, filterPictures(sessionPictures, filters));
         }
         else {
             if (filter.id === 'filter-favorite' && filter.checked) {
@@ -48,8 +47,8 @@ filterElements.forEach(filter => {
             else {
                 filters[filter.id] = filter.value;
             }
-            appendPictures(picturesDiv, filterPictures(sessionPictures, filters));
         }
+        appendPictures(picturesDiv, filterPictures(sessionPictures, filters));
     });
 });
 
