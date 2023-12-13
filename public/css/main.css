@@ -23,8 +23,9 @@ button, select {
 
 img {
     border-radius: 3px;
-    width: 32.5%;
+    width: 31%;
     height: auto;
+    max-height: 40vh;
     cursor: pointer;
 }
 
@@ -128,7 +129,7 @@ nav a {
     color: white;
     text-decoration: none;
     margin-right: 10px;
-    font-size: 1.3vw;
+    font-size: 1.5vw;
 }
 
 #upload-picture-button {
@@ -279,19 +280,18 @@ nav a {
     font-size: 1.3rem;
 }
 
+/* ----------------------------------------- SPACE DIV */
+.space-div {
+    height: 20vh;
+}
+
 /* ----------------------------------------- RESPONSIVE DESIGN */
 @media screen and (min-width: 800px) {
-    h1 {
-        font-size: 6vw;
-    }
     h2 {
         font-size: 3vw;
     }
     p {
         font-size: 22px;
-    }
-    nav a {
-        font-size:2vw;
     }
     map {
         width: 80%;
@@ -301,16 +301,10 @@ nav a {
     * {
         font-size: 20px;
     }
-    h1 {
-        font-size: 5vw;
-    }
     h2 {
         font-size: 2.5vw;
     }
     p {
         font-size: 25px;
-    }
-    nav a {
-        font-size: 1.5vw;
     }
 }

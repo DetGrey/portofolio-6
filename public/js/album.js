@@ -54,21 +54,27 @@ async function renderAlbums () {
             });
     }
 }
-function appendAlbums(album){
-    console.log(album)
-    const albumDiv = document.createElement('div');
-    albumDiv.setAttribute('class','album-object')
-    const albumName = document.createElement('p');
-    albumName.setAttribute('class','p-album-name')
-    albumName.textContent = album.album_name;
-    albumDiv.appendChild(albumName);
-    const albumBtn = document.createElement('button')
-    albumBtn.setAttribute('class','changBtn')
-    albumBtn.textContent = 'Change Name'
-    albumDiv.appendChild(albumBtn)
-    albums.appendChild(albumDiv)
+function appendAlbums(album) {
+    console.log(album);
 
+    const albumDiv = document.createElement('div');
+    albumDiv.setAttribute('class', 'album-object');
+
+    const albumName = document.createElement('p');
+    albumName.setAttribute('class', 'p-album-name');
+    albumName.textContent = album.album_name;
+
+    albumDiv.append(albumName)
+    albums.appendChild(albumDiv);
+
+    const albumBtn = document.createElement('button');
+    albumBtn.setAttribute('class', 'changeBtn');
+    albumBtn.textContent = 'Change Album Name';
+
+    albums.insertAdjacentElement('beforeend', albumBtn);
 }
+
+
 function renderAlbumPictures () {
     const sessionPictures = JSON.parse(sessionStorage.getItem("sessionPictures"))
     console.log(sessionPictures)
@@ -88,8 +94,9 @@ function renderAlbumPictures () {
                         if (tag.innerText === album.data.album_name) {
                             const img = document.createElement('img')
                             img.src = picture.img_path
+                            img.classList.add('picture');
                             tag.insertAdjacentElement('afterend',img)
-                    }
+                        }
                     }
                 })
             }
@@ -112,4 +119,5 @@ close.forEach(close => {
         }
     });
 });
+
 

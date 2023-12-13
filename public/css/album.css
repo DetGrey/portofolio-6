@@ -5,16 +5,42 @@
     align-items: center;
 }
 #albums {
+    /*outline: black solid 1px;*/
     display: flex;
     flex-direction: column;
 }
 
 .album-object {
+    /*outline: black solid 1px;*/
     display: flex;
     flex-direction: row;
     padding: 5px;
+    gap: 10px;
+    width: 90%;
+    flex-wrap: nowrap;
 }
 
+.changeBtn {
+    padding: 3vw;
+    margin: 2vw;
+    border-radius: 5px;
+    border: none;
+    background: black;
+    color: white;
+    font-size: 16px;
+    width: 25%;
+    cursor: pointer;
+    align-self: center;
+}
+
+#upload-album-button {
+    font-size: 1.3vw;
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 0 0 0 10px;
+    cursor: pointer;
+}
 
 /* --------------------------ALBUM Modal ------------------------------------*/
 .upload-album-modal-content {
