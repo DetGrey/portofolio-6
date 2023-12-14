@@ -107,7 +107,8 @@ const uploadPictureBtn = document.querySelector('#upload-picture-button');
 const pictureModal = document.querySelector('#picture-modal');
 const imgDataDiv = document.querySelector('#img-data-div');
 const close = document.querySelectorAll('.close');
-// Opens modal when clicking on the button
+const uploadAlbumModal = document.querySelector('#upload-album-modal');
+
 
 // Closes modal when clicking on the X
 close.forEach(close => {
@@ -303,4 +304,3 @@ function filterPictures (pictures, filters) {
     })
 }
 
-const uploadAlbumModal = document.querySelector('#upload-album-modal');
