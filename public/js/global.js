@@ -240,9 +240,14 @@ function toTitleCase(str) {
 }
 
 function filterPictures (pictures, filters) {
+    pictures = pictures.sort((a, b) => new Date(b.date_created) - new Date(a.date_created));
+    let limitCount = 0;
     console.log(filters);
     return pictures.filter(picture => {
         for (const key in filters) {
+            if (key === 'limit' && limitCount >= filters[key]) {
+                return false;
+            }
             if (key === 'filter-tag') {
                 if (!picture.tags.includes(filters[key])) {
                     return false;
@@ -286,6 +291,8 @@ function filterPictures (pictures, filters) {
                     return false;
                 }
             }
+            limitCount++;
+            console.log(limitCount)
         }
         return true;
     })

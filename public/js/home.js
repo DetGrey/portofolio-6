@@ -119,7 +119,9 @@ async function loadPage () {
         });
 }
 loadPage();
-let filters = {};
+let filters = {
+    limit: 9,
+};
 const recentPictures = document.querySelector('#recent-pictures');
 uploadPictureBtn.addEventListener('click', () => {
     uploadPictureModal.classList.toggle('hidden');
