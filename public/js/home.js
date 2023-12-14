@@ -1,4 +1,7 @@
 console.log('Client-side code running');
+let filters = {
+    limit: 9,
+};
 // -------------------------------------------- HEAT MAP ( LEAFLET JS )
 // SET VIEW AND ZOOM ON MAP
 let map = L.map('map', {
@@ -119,9 +122,6 @@ async function loadPage () {
         });
 }
 loadPage();
-let filters = {
-    limit: 9,
-};
 const recentPictures = document.querySelector('#recent-pictures');
 uploadPictureBtn.addEventListener('click', () => {
     uploadPictureModal.classList.toggle('hidden');
