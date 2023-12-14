@@ -1,7 +1,4 @@
 console.log('Client-side code running');
-let filters = {
-    limit: 9,
-};
 // -------------------------------------------- HEAT MAP ( LEAFLET JS )
 // SET VIEW AND ZOOM ON MAP
 let map = L.map('map', {
@@ -98,6 +95,9 @@ function getColor(value, sum) {
 
 // -------------------------------------------- RETRIEVE PICTURES FROM FIREBASE
 async function loadPage () {
+    let filters = {
+        limit: 9,
+    };
     await fetch('/home', {
         method: 'GET',
         headers: {
