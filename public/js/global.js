@@ -130,9 +130,9 @@ window.addEventListener('click', (event) => {
     if (event.target === uploadPictureModal) {
         uploadPictureModal.classList.toggle('hidden');
     }
-    // else if (event.target === uploadAlbumModal) {
-    //     uploadAlbumModal.classList.toggle('hidden');
-    // }
+    else if (event.target === uploadAlbumModal) {
+        uploadAlbumModal.classList.toggle('hidden');
+    }
 });
 
 
