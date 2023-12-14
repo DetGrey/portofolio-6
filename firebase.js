@@ -227,8 +227,7 @@ async function retrieveAlbums(userID){
             id: doc.id
         });
     })
-
-    return albums;
+    return albums.sort((a, b) => a.data.album_name.toLowerCase() > b.data.album_name.toLowerCase() ? 1 : -1);
 }
 
 async function uploadAlbumToDb(data, userUID) {
