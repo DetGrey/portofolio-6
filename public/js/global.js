@@ -145,6 +145,10 @@ const uploadBtn = document.querySelector('#upload-button');
 
 async function uploadPicture () {
     const formData = new FormData()
+    if (pictureFile.files[0] === undefined) {
+        alert('Please select a picture to upload');
+        return;
+    }
     formData.append('blob', pictureFile.files[0])
     await fetch('/upload', {
         method: 'POST',
