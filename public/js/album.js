@@ -103,6 +103,9 @@ function appendAlbums(albums) {
 async function renameAlbum(event) {
     const id = event.target.id.split('btn-')[1];
     const newName = prompt('Enter new album name');
+    if (!newName) {
+        return;
+    }
 
     await fetch('/rename-album', {
         method: 'POST',
