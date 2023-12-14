@@ -1,3 +1,4 @@
+/* SIMPLE ALBUM STYLING */
 a {
     cursor: pointer;
 }
@@ -7,13 +8,11 @@ a {
     align-items: center;
 }
 #albums {
-    /*outline: black solid 1px;*/
     display: flex;
     flex-direction: column;
 }
 
 .album-object {
-    /*outline: black solid 1px;*/
     display: flex;
     flex-direction: row;
     padding: 5px;
@@ -44,38 +43,6 @@ a {
     cursor: pointer;
 }
 
-/* --------------------------ALBUM Modal ------------------------------------*/
-.upload-album-modal-content {
-    /*outline: black solid 1px;*/
-    display: flex;
-    z-index: 2;
-    flex-direction: column;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fefefe;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 50%;
-    border-radius: 10px;
-    font-size: 1.3rem;
-}
 
-
-
-
-.close {
-    color: #aaaaaa;
-    font-size: 30px;
-    font-weight: bold;
-    align-self: flex-end;
-}
-
-.close:hover, .close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
 
 

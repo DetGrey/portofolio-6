@@ -45,7 +45,7 @@ p {
     padding: 0 5px;
     font-size: 20px;
 }
-/* ----------------------------------------- SECTIONS, DIV */
+/* ----------------------------------------- SECTIONS, DIV, BODY, HEADER, HR */
 body {
     min-height: 100vh;
     width: 100vw;
@@ -141,6 +141,10 @@ button {
 }
 
 
+#already-have-account {
+    margin: 0 0 20vh 0;
+}
+/* FOOTER STYLING SINCE MAIN.CSS IS NOT CONNECTED TO THE LOGIN PAGE */
 footer {
     position: fixed;
     bottom: 0;
@@ -153,8 +157,4 @@ footer {
     background-color: black;
     color: white;
     padding: 20px 0;
-}
-
-#already-have-account {
-    margin: 0 0 20vh 0;
 }
