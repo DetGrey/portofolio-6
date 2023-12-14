@@ -175,7 +175,7 @@ async function uploadPictureToDB(url) {
         date_created: date,
         album_id: form.get('album-name'),
         city: toTitleCase(form.get('city')),
-        country: toTitleCase(form.get('country')),
+        country: form.get('country'),
         favorite: favorite,
         tags: tags,
         alt_text: form.get('alt-text')
