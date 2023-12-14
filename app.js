@@ -28,23 +28,6 @@ app.get('/home', async (req, res) => {
     console.log('login ' + loginResponse)
     return res.json(loginResponse);
 })
-app.get('/filter-pictures', (req, res) => {
-    console.log(req.query)
-    try {
-        // console.log('Querying and returning new pictures');
-        // const queryResult = await retrievePictures(userUID);
-        //
-        // const countryData = await retrieveCountryData(queryResult);
-        // console.log(countryData)
-        // return res.json({
-        //     pictures: queryResult,
-        //     countryData: countryData
-        // });
-    } catch (error) {
-        console.error('Error retrieving pictures:', error);
-        return res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
 
 app.get('/pictures', async (req, res) => {
     try {

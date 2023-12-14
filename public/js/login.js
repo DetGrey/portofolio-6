@@ -1,5 +1,4 @@
-console.log('Client side code running');
-
+// ------------------------------------------------------ LOGIN
 const loginEmail = document.querySelector("#login-email");
 const loginPassword = document.querySelector("#login-password");
 const loginBtn = document.querySelector("#login-button");
@@ -41,6 +40,7 @@ const passwordEnter = (event) => {
 loginPassword.addEventListener("keypress", passwordEnter);
 
 
+// ------------------------------------------------------ TOGGLE SIGN UP & LOGIN SECTION
 const toggleSignUpSection = () => {
     const signUpSection = document.querySelector('#signup-section');
     const loginSection = document.querySelector('#login-section')
@@ -54,11 +54,13 @@ const toggleSignUpSection = () => {
     }
 
 }
+
 const showSignUp = document.querySelector('#create-account');
 showSignUp.addEventListener('click', toggleSignUpSection)
 const showLogin = document.querySelector('#already-have-account');
 showLogin.addEventListener('click', toggleSignUpSection)
 
+// ------------------------------------------------------ CREATE ACCOUNT
 const firstName = document.querySelector("#first-name");
 const lastName = document.querySelector("#last-name");
 const signupEmail = document.querySelector("#signup-email");

@@ -1,5 +1,4 @@
-console.log('Client-side code running');
-// -------------------------------------------- HEAT MAP ( LEAFLET JS )
+// ------------------------------------------------------ HEAT MAP ( LEAFLET JS )
 // SET VIEW AND ZOOM ON MAP
 let map = L.map('map', {
     minZoom: 1,
@@ -10,7 +9,7 @@ let map = L.map('map', {
 // NOWRAP: TRUE IS SET SO THAT THE MAP WON'T DUPLICATE WHEN USER MOVES THE MAP
 // THE API KEY IS ADDED BECAUSE IT IS NEEDED TO USE MAPS FROM STADIAMAPS (IT'S FREE)
 L.tileLayer('https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.{ext}?api_key=c2365df7-7556-4972-8ad8-1c7f5d19ab1b', {noWrap: true,ext: 'png', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
-// -------------------------------------------- GEOJSON FOR HEAT MAP ( LEAFLET JS )
+// GEOJSON FOR HEAT MAP ( LEAFLET JS )
 // GEOJSON FILE FETCHED TO CREATE AREAS FOR EACH COUNTRY
 async function renderGeoJSON (countryData) {
     const amountOfPictures = Object.values(countryData).reduce((a, b) => a + b.count, 0);
@@ -48,7 +47,7 @@ async function renderGeoJSON (countryData) {
 // Setting the bounds of the map as the start position
 map.setMaxBounds(map.getBounds());
 
-// -------------------------------------------- ON EACH FEATURE FUNCTION
+// ON EACH FEATURE FUNCTION
 function onEachFeature(feature, layer) {
     layer.bindPopup(feature.properties.name);
     // NO POPUP/TOOLTIP IS ADDED FOR COUNTRIES WITH NO SALES
@@ -74,7 +73,7 @@ function onEachFeature(feature, layer) {
     });
 }
 
-// -------------------------------------------- COLOR VALUES BASED ON SALES VALUE
+// COLOR VALUES BASED ON SALES VALUE
 function getColor(value, sum) {
     if (value === 0) {
         return '#c4c4c4';
@@ -93,7 +92,7 @@ function getColor(value, sum) {
     }
 }
 
-// -------------------------------------------- RETRIEVE PICTURES FROM FIREBASE
+// ------------------------------------------------------ LOAD PAGE
 async function loadPage () {
     let filters = {
         limit: 9,
@@ -122,6 +121,8 @@ async function loadPage () {
         });
 }
 loadPage();
+
+// ------------------------------------------------------ EVENT LISTENER
 const recentPictures = document.querySelector('#recent-pictures');
 uploadPictureBtn.addEventListener('click', () => {
     uploadPictureModal.classList.toggle('hidden');

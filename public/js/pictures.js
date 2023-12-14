@@ -1,3 +1,4 @@
+// ------------------------------------------------------ LOAD PAGE
 async function loadPage () {
     await fetch('/home', {
         method: 'GET',
@@ -44,15 +45,18 @@ async function loadPage () {
         });
 }
 loadPage();
+
 const picturesDiv = document.querySelector('#pictures-div');
+
+// ------------------------------------------------------ UPLOAD PICTURE MODAL
 uploadPictureBtn.addEventListener('click', () => {
     uploadPictureModal.classList.toggle('hidden');
 });
 uploadBtn.addEventListener('click', uploadPicture);
 
-let filters = {
-};
 // -------------------------------------------- FILTER EVENT LISTENERS
+let filters = {};
+
 const filterElements = document.querySelectorAll('.filter');
 filterElements.forEach(filter => {
     filter.addEventListener('change', () => {

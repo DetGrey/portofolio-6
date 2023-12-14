@@ -1,3 +1,4 @@
+// ------------------------------------------------------ LOAD PAGE
 async function loadPage () {
     await fetch('/home', {
         method: 'GET',
@@ -31,6 +32,8 @@ async function loadPage () {
 loadPage();
 
 const albumsDiv = document.querySelector('#albums');
+
+// ------------------------------------------------------ RENDER/APPEND ALBUMS
 async function renderAlbums () {
     const sessionAlbums = JSON.parse(sessionStorage.getItem("sessionAlbums"))
     if (sessionAlbums) {
@@ -100,6 +103,7 @@ function appendAlbums(albums) {
     });
 }
 
+// ------------------------------------------------------ RENAME ALBUM
 async function renameAlbum(event) {
     const id = event.target.id.split('btn-')[1];
     const newName = prompt('Enter new album name');
@@ -133,11 +137,13 @@ async function renameAlbum(event) {
     })
 }
 
+// ------------------------------------------------------ REDIRECT TO ALBUM PICTURES
 function fetchFilterPictures(event) {
-    console.log(event.target.id)
+    console.log(event.target.id);
     location.href = `/pictures.html?album_id=${event.target.id}`;
 }
 
+// ------------------------------------------------------ RENDER 3 ALBUM PICTURES
 function renderAlbumPictures () {
     const sessionPictures = JSON.parse(sessionStorage.getItem("sessionPictures"))
     console.log(sessionPictures)
@@ -176,14 +182,13 @@ function renderAlbumPictures () {
     })
 }
 
-
-
+// ------------------------------------------------------ UPLOAD ALBUM BUTTON
 const uploadAlbumBtn = document.querySelector('#upload-album-button');
 uploadAlbumBtn.addEventListener('click', () => {
     uploadAlbumModal.classList.toggle('hidden');
 });
 
-
+// ------------------------------------------------------ UPLOAD ALBUM TO DB
 const albumName = document.querySelector('#album-name')
 
 async function uploadAlbumToDb(){
@@ -230,6 +235,7 @@ const submitAlbum = document.querySelector('#submit-album-button');
 
 submitAlbum.addEventListener('click',uploadAlbumToDb)
 
+// ------------------------------------------------------ CLOSE ALBUM MODAL
 document.addEventListener('DOMContentLoaded', function () {
     const uploadAlbumModal = document.querySelector('#upload-album-modal');
     const closeButton = uploadAlbumModal.querySelector('.close');

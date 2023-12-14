@@ -21,6 +21,22 @@ const firebaseApp = initializeApp(firebaseConfig);
 const firebaseAuth = getAuth(firebaseApp);
 const { updateUID } = require('./app.js');
 
+async function monitorAuthState() {
+    let signedIn = false;
+    await onAuthStateChanged(firebaseAuth, (user) => {
+        if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/auth.user
+            updateUID(user.uid);
+            signedIn = true;
+        } else {
+            // User is signed out
+            updateUID(null);
+        }
+    });
+    return signedIn;
+}
+
 async function authenticateLogin(emailValue, passwordValue) {
     return signInWithEmailAndPassword(firebaseAuth, emailValue, passwordValue)
         .then((userCredential) => {
@@ -39,6 +55,18 @@ async function authenticateLogin(emailValue, passwordValue) {
         });
 }
 
+async function logOut() {
+    return firebaseAuth.signOut().then(() => {
+        updateUID(null);
+        return true;
+
+    }).catch((error) => {
+        console.log(error);
+        return false;
+    });
+
+}
+
 async function createNewUser(emailValue,passwordValue,firstnameValue,lastnameValue){
     return createUserWithEmailAndPassword(firebaseAuth,emailValue,passwordValue)
         .then((userCredential) => {
@@ -53,34 +81,6 @@ async function createNewUser(emailValue,passwordValue,firstnameValue,lastnameVal
         });
 }
 
-async function logOut() {
-    return firebaseAuth.signOut().then(() => {
-        updateUID(null);
-        return true;
-
-    }).catch((error) => {
-        console.log(error);
-        return false;
-    });
-
-}
-
-async function monitorAuthState() {
-    let signedIn = false;
-    await onAuthStateChanged(firebaseAuth, (user) => {
-        if (user) {
-            // User is signed in, see docs for a list of available properties
-            // https://firebase.google.com/docs/reference/js/auth.user
-            updateUID(user.uid);
-            signedIn = true;
-        } else {
-            // User is signed out
-            updateUID(null);
-        }
-    });
-    return signedIn;
-}
-
 // ------------------------------------------------------ FIRESTORE / STORAGE
 const db = getFirestore(firebaseApp);
 
@@ -91,6 +91,7 @@ const picturesRef = collection(db, 'pictures');
 const albumsRef = collection(db, 'albums');
 const usersRef = collection(db, 'users');
 
+// ------------------------------------------------------ USER FUNCTIONS
 async function createUserInDB (uid, firstName, lastName, signupEmail) {
     await setDoc(doc(usersRef), {
         first_name: firstName,
@@ -105,6 +106,23 @@ async function createUserInDB (uid, firstName, lastName, signupEmail) {
             console.log(error);
         });
 }
+async function createDefaultAlbum(userUID) {
+    return setDoc(doc(albumsRef), {
+        album_name: 'Default',
+        date_created: Timestamp.fromDate(new Date()),
+        user_id: userUID
+    })
+        .then(() => {
+            console.log('album uploaded');
+            return true
+        })
+        .catch((error) => {
+            console.log(error);
+            return false
+        });
+}
+
+// ------------------------------------------------------ PICTURE FUNCTIONS
 
 async function retrievePictures(userUID) {
     let pictures = [];
@@ -112,62 +130,23 @@ async function retrievePictures(userUID) {
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach(doc => {
         let pic = doc.data();
-        pic.date_created = new Date(doc.data().date_created.seconds * 1000 + doc.data().date_created.nanoseconds / 1000000);;
+        pic.date_created = new Date(doc.data().date_created.seconds * 1000 + doc.data().date_created.nanoseconds / 1000000);
         pictures.push(pic);
     });
 
     return pictures;
 }
-
-async function retrieveCountryData(data) {
-    const countryData = [];
-
-    data.forEach(doc => {
-        if (countryData.some(x => x.name === doc.country)) {
-            countryData.forEach(object => {
-                if (object.name === doc.country) {
-                    object.count++;
-                }
-            });
-        }
-        else {
-            countryData.push({
-                "name": doc.country,
-                "count": 1
-            })
-        }
-    });
-    return countryData;
-
-}
-
-async function retrieveAlbums(userID){
-    let albums = [];
-    const q = query(albumsRef, where('user_id','==', userID));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach(doc => {
-        albums.push({
-            data: doc.data(),
-            id: doc.id
-        });
-    })
-
-    return albums;
-}
-
-
 async function uploadPictureToStorage(file) {
     console.log(file)
-    let url = '';
 
     const date = new Date().toISOString().slice(0, 19).replace('T', '-').replaceAll(':', '');
     const storageRef = ref(storage, 'pictures/' + date + "-" + file.originalname);
 
     const type = file.originalname.includes('.png') ? 'png' :
-                        file.originalname.includes('.jpg') ? 'jpg' :
-                        file.originalname.includes('.jpeg') ? 'jpeg' :
-                        file.originalname.includes('.gif') ? 'gif' :
-                        file.originalname.includes('.svg') ? 'svg' :
+        file.originalname.includes('.jpg') ? 'jpg' :
+            file.originalname.includes('.jpeg') ? 'jpeg' :
+                file.originalname.includes('.gif') ? 'gif' :
+                    file.originalname.includes('.svg') ? 'svg' :
                         'unknown';
 
     const metadata = {
@@ -218,21 +197,41 @@ async function uploadPictureToDB(data, userUID) {
             return false
         });
 }
+// COUNTRY DATA
+async function retrieveCountryData(data) {
+    const countryData = [];
 
-async function createDefaultAlbum(userUID) {
-    return setDoc(doc(albumsRef), {
-        album_name: 'Default',
-        date_created: Timestamp.fromDate(new Date()),
-        user_id: userUID
-    })
-        .then(() => {
-            console.log('album uploaded');
-            return true
-        })
-        .catch((error) => {
-            console.log(error);
-            return false
+    data.forEach(doc => {
+        if (countryData.some(x => x.name === doc.country)) {
+            countryData.forEach(object => {
+                if (object.name === doc.country) {
+                    object.count++;
+                }
+            });
+        }
+        else {
+            countryData.push({
+                "name": doc.country,
+                "count": 1
+            })
+        }
+    });
+    return countryData;
+}
+
+// ------------------------------------------------------ ALBUM FUNCTIONS
+async function retrieveAlbums(userID){
+    let albums = [];
+    const q = query(albumsRef, where('user_id','==', userID));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(doc => {
+        albums.push({
+            data: doc.data(),
+            id: doc.id
         });
+    })
+
+    return albums;
 }
 
 async function uploadAlbumToDb(data, userUID) {
@@ -274,4 +273,5 @@ async function renameAlbum(albumID, newName, uid) {
     });
 }
 
+// ------------------------------------------------------ EXPORTS
 module.exports = { authenticateLogin, monitorAuthState, logOut, createNewUser, retrievePictures, uploadPictureToStorage, uploadPictureToDB, retrieveCountryData, retrieveAlbums,uploadAlbumToDb, renameAlbum }; //export the app
