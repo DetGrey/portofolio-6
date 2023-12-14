@@ -117,7 +117,8 @@ close.forEach(close => {
         }
         else if (!uploadPictureModal.classList.contains('hidden')) {
             uploadPictureModal.classList.toggle('hidden');
-        } else if (!uploadAlbumModal.classList.contains('hidden')) {
+        }
+        else if (!uploadAlbumModal.classList.contains('hidden')) {
             uploadAlbumModal.classList.toggle('hidden');
         }
     });
@@ -297,3 +298,5 @@ function filterPictures (pictures, filters) {
         return true;
     })
 }
+
+const uploadAlbumModal = document.querySelector('#upload-album-modal');
