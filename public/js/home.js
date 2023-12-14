@@ -18,6 +18,7 @@ async function renderGeoJSON (countryData) {
     fetch('./js/countries.geo.json')
         .then((r) => r.json())
         .then((data) => {
+            console.log(data)
             // ACCESS DATA IN THE GEOJSON
             L.geoJson(data, {
                 // CHANGE STYLE ON MAP
@@ -58,7 +59,12 @@ function onEachFeature(feature, layer) {
         // IF THE GEOJSON COUNTRY EXISTS IN THE COUNTRY DATA
         if (country.name === feature.properties.name) {
             // THEN ADD A POPUP/TOOLTIP WITH THE COUNTRY NAME AND TOTAL SALES AMOUNT FOR THE COUNTRY
-            layer.bindPopup(feature.properties.name + ': ' + country.count + ' pictures');
+            if (country.count === 1) {
+                layer.bindPopup(feature.properties.name + ': ' + country.count + ' picture');
+            }
+            else {
+                layer.bindPopup(feature.properties.name + ': ' + country.count + ' pictures');
+            }
         }
     }
     // SHOW THE POPUP/TOOLTIP ON MOUSEOVER
