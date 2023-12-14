@@ -89,25 +89,50 @@ function appendFilterSelectOptions(selected) {
     const albumSelect = document.querySelector('#filter-album');
     const sessionPictures = JSON.parse(sessionStorage.getItem("sessionPictures"));
     const sessionAlbums = JSON.parse(sessionStorage.getItem("sessionAlbums"));
+
+    const cities = [];
+    const countries = [];
+    const albums = [];
+
     sessionPictures.forEach(picture => {
-        if (!citySelect.innerHTML.includes(picture.city)) {
-            const cityOption = document.createElement('option');
-            cityOption.value = picture.city;
-            cityOption.innerText = picture.city;
-            citySelect.appendChild(cityOption);
+        if (!cities.includes(picture.city)) {
+            cities.push(picture.city);
         }
-        if (!countrySelect.innerHTML.includes(picture.country)) {
-            const countryOption = document.createElement('option');
-            countryOption.value = picture.country;
-            countryOption.innerText = picture.country;
-            countrySelect.appendChild(countryOption);
+        if (!countries.includes(picture.country)) {
+            countries.push(picture.country);
         }
-        if (!albumSelect.innerHTML.includes(picture.album_id)) {
-            const albumOption = document.createElement('option');
-            albumOption.value = picture.album_id;
-            albumOption.innerText = sessionAlbums.find(album => album.id === picture.album_id).data.album_name;
-            albumSelect.appendChild(albumOption);
+        if (!albums.includes(picture.album_id)) {
+            albums.push(picture.album_id);
         }
+    });
+
+    cities.sort((a, b) => a.toLowerCase() > b.toLowerCase() ? 1 : -1)
+        .forEach(city => {
+        const cityOption = document.createElement('option');
+        cityOption.value = city;
+        cityOption.innerText = city;
+        citySelect.appendChild(cityOption);
+    });
+    countries.sort((a, b) => a.toLowerCase() > b.toLowerCase() ? 1 : -1)
+        .forEach(country => {
+        const countryOption = document.createElement('option');
+        countryOption.value = country;
+        countryOption.innerText = country;
+        countrySelect.appendChild(countryOption);
+    });
+    const albumNames = [];
+    albums.forEach(albumID => {
+        albumNames.push({
+            id: albumID,
+            name: sessionAlbums.find(x => x.id === albumID).data.album_name
+        });
+    });
+    albumNames.sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)
+        .forEach(album => {
+        const albumOption = document.createElement('option');
+        albumOption.value = album.id;
+        albumOption.innerText = album.name;
+        albumSelect.appendChild(albumOption);
     });
 
     if (selected.city) {
