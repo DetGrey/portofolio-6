@@ -149,6 +149,13 @@ nav a {
     cursor: pointer;
 }
 
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 0 10vw;
+}
+
 
 /* ----- PLACEHOLDER */
 /* https://www.w3schools.com/howto/howto_css_placeholder.asp */
