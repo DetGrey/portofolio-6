@@ -52,7 +52,7 @@ a {
     margin-right: auto;
     height: 400px;
     z-index: 1;
-    outline: black solid 1px;
+    outline: black solid 1px !important;
     width: 500px;
 
 }
