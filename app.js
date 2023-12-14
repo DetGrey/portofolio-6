@@ -35,7 +35,6 @@ app.get('/pictures', async (req, res) => {
         const queryResult = await retrievePictures(userUID);
 
         const countryData = await retrieveCountryData(queryResult);
-        console.log(countryData)
         return res.json({
             pictures: queryResult,
             countryData: countryData
@@ -88,14 +87,12 @@ app.post('/upload-picture-to-db', async (req, res) => {
 });
 //---------------------------------------------------------------
 app.post('/upload-album-to-db', async (req,res) => {
-    console.log(req.body)
     const response = await uploadAlbumToDb(req.body,userUID)
 
     console.log('upload to db ' + response);
     res.json(response);
 })
 app.post('/rename-album', async (req,res) => {
-    console.log(req.body)
     const response = await renameAlbum(req.body.album_id, req.body.new_name, userUID)
 
     console.log('renaming album ' + response);

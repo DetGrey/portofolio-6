@@ -13,7 +13,6 @@ const logout = async () => {
     await fetch('/logout', {method: 'GET'})
         .then(response => response.json())
         .then((data) => {
-            console.log(data);
             if (data === true) {
                 clearSessionStorage();
                 location.href = `/login.html`;
@@ -28,7 +27,6 @@ logoutBtn.addEventListener('click', logout);
 function filterPictures (pictures, filters) {
     pictures = pictures.sort((a, b) => new Date(b.date_created) - new Date(a.date_created));
     let limitCount = 0;
-    console.log(filters);
     return pictures.filter(picture => {
         for (const key in filters) {
             if (key === 'limit' && limitCount >= filters[key]) {
@@ -78,7 +76,6 @@ function filterPictures (pictures, filters) {
                 }
             }
             limitCount++;
-            console.log(limitCount)
         }
         return true;
     })
@@ -98,7 +95,7 @@ async function renderPictures (destinationDiv, filters) {
             .then((data) => {
                 sessionStorage.setItem("sessionPictures", JSON.stringify(data.pictures))
                 sessionStorage.setItem("sessionCountryData", JSON.stringify(data.countryData))
-                appendPictures(destinationDiv, data.pictures);
+                appendPictures(destinationDiv, filterPictures(data.pictures, filters));
             });
     }
 }
@@ -138,7 +135,11 @@ async function renderAlbums() {
         sessionAlbums.forEach(album => {
             selectAlbum.innerHTML += '<option value="' + album.id + '">' + album.data.album_name + '</option>';
         })
-        Array.from(selectAlbum.querySelectorAll('option')).find(option => option.innerText === 'Default').selected = true;
+        const defaultAlbum = Array.from(selectAlbum.querySelectorAll('option')).find(option => option.innerText === 'Default');
+        if (defaultAlbum) {
+            defaultAlbum.selected = true;
+        }
+
     }
     else {
         await fetch('/albums', {
@@ -163,7 +164,6 @@ async function renderAlbums() {
 // -------------------------------------------- APPEND COUNTRY DATA
 async function appendCountryData () {
     const sessionCountryData = JSON.parse(sessionStorage.getItem("sessionCountryData"));
-    console.log(sessionCountryData)
     await renderGeoJSON(sessionCountryData);
 }
 // ------------------------------------------------------ APPEND COUNTRIES TO UPLOAD PICTURE
@@ -249,14 +249,12 @@ async function uploadPicture () {
             return response.json();
         })
         .then((url) => {
-            console.log(url);
             uploadPictureToDB(url);
         });
 }
 
 async function uploadPictureToDB(url) {
     const form = new FormData(document.querySelector('#upload-picture-form'));
-    console.log(form)
 
     const date = new Date();
     let favorite = false;
@@ -288,7 +286,6 @@ async function uploadPictureToDB(url) {
             return response.json();
         })
         .then((data) => {
-            console.log(data);
             if (data === true) {
                 alert('Picture uploaded');
                 clearSessionStorage();

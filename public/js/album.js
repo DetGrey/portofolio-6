@@ -11,7 +11,6 @@ async function loadPage () {
             return response.json();
         })
         .then(async (data) => {
-            console.log(data);
             if (data !== true) {
                 clearSessionStorage();
                 location.href = `/login.html`;
@@ -54,14 +53,12 @@ async function renderAlbums () {
             })
             .then((albums) => {
                 sessionStorage.setItem("sessionAlbums", JSON.stringify(albums))
-                console.log(albums);
                 appendAlbums(albums);
                 renderAlbumPictures();
             });
     }
 }
 function appendAlbums(albums) {
-    console.log(albums)
     albums.forEach(album => {
         const hr = document.createElement('hr');
         hr.classList.add('line-hr');
@@ -85,7 +82,6 @@ function appendAlbums(albums) {
         albumsDiv.appendChild(albumHeader);
         // albumsDiv.insertAdjacentElement('beforeend', albumBtn);
 
-        console.log(album);
         const albumDiv = document.createElement('div');
         albumDiv.setAttribute('class', 'album-object');
 
@@ -139,16 +135,13 @@ async function renameAlbum(event) {
 
 // ------------------------------------------------------ REDIRECT TO ALBUM PICTURES
 function fetchFilterPictures(event) {
-    console.log(event.target.id);
     location.href = `/pictures.html?album_id=${event.target.id}`;
 }
 
 // ------------------------------------------------------ RENDER 3 ALBUM PICTURES
 function renderAlbumPictures () {
     const sessionPictures = JSON.parse(sessionStorage.getItem("sessionPictures"))
-    console.log(sessionPictures)
     const sessionAlbums = JSON.parse(sessionStorage.getItem("sessionAlbums"))
-    console.log(sessionAlbums)
     const pTagAlbums = document.querySelectorAll('.p-album-name');
 
     // for each pic check if the album id fits
@@ -163,22 +156,6 @@ function renderAlbumPictures () {
             img.classList.add('picture');
             pTag.parentElement.nextSibling.appendChild(img)
         }
-
-        // sessionAlbums.forEach(album => {
-        //     if (picture.album_id === album.id) {
-        //         pTagAlbums.forEach(tag =>{
-        //             console.log(tag)
-        //
-        //             if (tag.parentElement.childElementCount !== 2+3){ //2 Is Default elements and 3 is max number of img from firebase
-        //                 if (tag.innerText === album.data.album_name) {
-        //                     const img = document.createElement('img')
-        //                     img.src = picture.img_path
-        //                     tag.insertAdjacentElement('afterend',img)
-        //             }
-        //             }
-        //         })
-        //     }
-        // })
     })
 }
 
@@ -205,7 +182,7 @@ async function uploadAlbumToDb(){
             album_name: albumName.value,
             date_created: date,
         }
-        console.log(albumData)
+
         await fetch('/upload-album-to-db', {
             method: 'POST',
             headers : {
@@ -217,7 +194,7 @@ async function uploadAlbumToDb(){
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
+
                 if (data === true) {
                     alert('Album uploaded');
                     clearSessionStorage();

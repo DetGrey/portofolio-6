@@ -80,7 +80,6 @@ function getColor(value, sum) {
     }
     else {
         const percentage = value / sum;
-        console.log(percentage)
         // IF THE BOOLEAN IS TRUE THEN RETURN COLOR CODE
         // ELSE GO ON TO THE NEXT BOOLEAN AND DO THE SAME
         // IF THE VALUE IS LESS THAN OR EQUAL TO 0 THEN RETURN THE GREY COLOR CODE
@@ -94,9 +93,6 @@ function getColor(value, sum) {
 
 // ------------------------------------------------------ LOAD PAGE
 async function loadPage () {
-    let filters = {
-        limit: 9,
-    };
     await fetch('/home', {
         method: 'GET',
         headers: {
@@ -108,12 +104,11 @@ async function loadPage () {
             return response.json();
         })
         .then(async (data) => {
-            console.log(data);
             if (data !== true) {
                 clearSessionStorage();
                 location.href = `/login.html`;
             } else {
-                await renderPictures(recentPictures, filters);
+                await renderPictures(recentPictures, {limit: 9});
                 await appendAllCountries();
                 await appendCountryData();
                 await renderAlbums();

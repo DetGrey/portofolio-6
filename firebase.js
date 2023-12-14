@@ -137,8 +137,6 @@ async function retrievePictures(userUID) {
     return pictures;
 }
 async function uploadPictureToStorage(file) {
-    console.log(file)
-
     const date = new Date().toISOString().slice(0, 19).replace('T', '-').replaceAll(':', '');
     const storageRef = ref(storage, 'pictures/' + date + "-" + file.originalname);
 
@@ -165,7 +163,6 @@ async function uploadPictureToStorage(file) {
             },
             async () => {
                 await getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    console.log('File available at', downloadURL);
                     resolve(downloadURL);
                 }).catch((error) => {
                     console.error('Error getting download URL:', error);

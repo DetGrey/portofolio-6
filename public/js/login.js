@@ -20,7 +20,6 @@ const login = async () => {
             return response.json();
         })
         .then(function(data) {
-            console.log(data);
             if (data === true) {
                 location.href = `/index.html`;
             }
@@ -95,7 +94,6 @@ const createAccount = async () => {
             return response.json();
         })
         .then(function(data) {
-            console.log(data);
             if (data === true) {
                 location.href = `/index.html`;
             }
