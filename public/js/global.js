@@ -107,7 +107,8 @@ const uploadPictureBtn = document.querySelector('#upload-picture-button');
 const pictureModal = document.querySelector('#picture-modal');
 const imgDataDiv = document.querySelector('#img-data-div');
 const close = document.querySelectorAll('.close');
-// Opens modal when clicking on the button
+const uploadAlbumModal = document.querySelector('#upload-album-modal');
+
 
 // Closes modal when clicking on the X
 close.forEach(close => {
@@ -130,9 +131,9 @@ window.addEventListener('click', (event) => {
     if (event.target === uploadPictureModal) {
         uploadPictureModal.classList.toggle('hidden');
     }
-    // else if (event.target === uploadAlbumModal) {
-    //     uploadAlbumModal.classList.toggle('hidden');
-    // }
+    else if (event.target === uploadAlbumModal) {
+        uploadAlbumModal.classList.toggle('hidden');
+    }
 });
 
 
@@ -303,4 +304,3 @@ function filterPictures (pictures, filters) {
     })
 }
 
-const uploadAlbumModal = document.querySelector('#upload-album-modal');
