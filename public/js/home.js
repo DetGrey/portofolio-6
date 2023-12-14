@@ -125,3 +125,5 @@ uploadPictureBtn.addEventListener('click', () => {
     uploadPictureModal.classList.toggle('hidden');
 });
 uploadBtn.addEventListener('click', uploadPicture);
+
+

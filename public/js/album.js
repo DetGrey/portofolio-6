@@ -175,7 +175,6 @@ function renderAlbumPictures () {
 
 
 
-const uploadAlbumModal = document.querySelector('#upload-album-modal');
 const uploadAlbumBtn = document.querySelector('#upload-album-button');
 uploadAlbumBtn.addEventListener('click', () => {
     uploadAlbumModal.classList.toggle('hidden');
