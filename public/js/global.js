@@ -50,7 +50,7 @@ async function appendAllCountries(){
     fetch('./js/countries.geo.json')
         .then((r) => r.json())
         .then((data) => {
-            countryNames = data.features.map((feature) => feature.properties.name);
+            countryNames = data.features.map((feature) => feature.properties.name).sort();
             const countrySelect = document.querySelector('#country');
             countryNames.forEach(country => {
                 countrySelect.innerHTML += '<option value="' + country + '">' + country + '</option>';
