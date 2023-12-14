@@ -1,4 +1,4 @@
-
+let countryNames;
 function clearSessionStorage () {
     sessionStorage.clear();
 }
@@ -45,6 +45,17 @@ async function appendCountryData () {
     const sessionCountryData = JSON.parse(sessionStorage.getItem("sessionCountryData"));
     console.log(sessionCountryData)
     await renderGeoJSON(sessionCountryData);
+}
+async function appendAllCountries(){
+    fetch('./js/countries.geo.json')
+        .then((r) => r.json())
+        .then((data) => {
+            countryNames = data.features.map((feature) => feature.properties.name);
+            const countrySelect = document.querySelector('#country');
+            countryNames.forEach(country => {
+                countrySelect.innerHTML += '<option value="' + country + '">' + country + '</option>';
+            })
+        });
 }
 
 function appendPictures (destinationDiv, pictures) {
@@ -117,9 +128,10 @@ close.forEach(close => {
 window.addEventListener('click', (event) => {
     if (event.target === uploadPictureModal) {
         uploadPictureModal.classList.toggle('hidden');
-    } else if (event.target === uploadAlbumModal) {
-        uploadAlbumModal.classList.toggle('hidden');
     }
+    // else if (event.target === uploadAlbumModal) {
+    //     uploadAlbumModal.classList.toggle('hidden');
+    // }
 });
 
 

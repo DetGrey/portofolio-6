@@ -38,6 +38,7 @@ async function loadPage () {
 
                 renderPictures(picturesDiv, filters);
                 renderAlbums();
+                appendAllCountries();
                 appendFilterSelectOptions(selectedElements);
             }
         });
