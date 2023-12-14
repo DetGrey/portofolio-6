@@ -83,7 +83,6 @@ filterElements.forEach(filter => {
 });
 
 function appendFilterSelectOptions(selected) {
-    console.log(selected)
     const citySelect = document.querySelector('#filter-city');
     const countrySelect = document.querySelector('#filter-country');
     const albumSelect = document.querySelector('#filter-album');
