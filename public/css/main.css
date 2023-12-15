@@ -28,18 +28,15 @@
     text-align: center;
     padding: 3px;
 
-
     & > span {
         font-size: 25px;
         font-weight: bold;
     }
-
     & .fifty {
         color: #ff0000;
     }
     & .thirty {
         color: #ff5c1f;
-
     }
     & .ten {
         color: #ff7c0c;
@@ -49,12 +46,10 @@
     }
     & .five-minus {
         color: #f8b84c;
-
     }
     & .zero {
         color: #c4c4c4;
     }
-
 }
 
 button, select {
