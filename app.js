@@ -16,7 +16,7 @@ const { monitorAuthState, retrievePictures, uploadPictureToDB, retrieveAlbums, r
 } = require('./firebase');
 
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/docs'));
 app.use(express.json());
 
 app.listen(PORT, function () {
