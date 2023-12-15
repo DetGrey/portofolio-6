@@ -25,7 +25,7 @@ async function monitorAuthState() {
     let signedIn = false;
     await onAuthStateChanged(firebaseAuth, (user) => {
         if (user) {
-            // User is signed in, see docs for a list of available properties
+            // User is signed in, see public for a list of available properties
             // https://firebase.google.com/docs/reference/js/auth.user
             updateUID(user.uid);
             signedIn = true;
