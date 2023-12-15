@@ -59,7 +59,7 @@ function filterPictures (pictures, filters) {
                 }
             }
             if (key === 'filter-mm') {
-                const month = new Date(picture.date_created).getMonth();
+                const month = new Date(picture.date_created).getMonth() + 1;
                 if (month !== parseInt(filters[key])) {
                     return false;
                 }
